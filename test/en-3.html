@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang=fr>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="../src/balloon.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel="stylesheet" crossorigin="anonymous">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel="stylesheet" crossorigin="anonymous">
+    <title> Form sample in English </title>
+  <head>
+  <body>
+    <vai id="vai" data-va-loop="true"
+		data-va-derived="false" data-va-synonym="false"
+		data-va-i18n="false" data-va-lang="en-US"
+		data-va-nothing="nothing" data-va-many="apply" >
+			<va data-va-verbs="change" data-va-subjects="voice" data-va-target="#activation-toggle-stop" />
+			<va data-va-verbs="change" data-va-subjects="balloon" data-va-target="#activation-balloons" />
+			<va data-va-verbs="change" data-va-subjects="debug" data-va-target="#activation-debug" />
+			<va data-va-verbs="stop" data-va-subjects="voice" data-va-target="#activation-stop" data-va-allways="true" />
+			<va data-va-verbs="paint" data-va-subjects="page" data-va-target="body" data-va-action="style" data-va-property="background-color" />
+			<va data-va-verbs="paint" data-va-subjects="title" data-va-target="#legend" data-va-action="style" data-va-property="background-color" />
+			<va data-va-verbs="paint" data-va-subjects="field" data-va-target=".form-label" data-va-action="style" data-va-property="background-color" />
+			<va data-va-verbs="paint" data-va-subjects="entry" data-va-target="input[type=text]" data-va-action="style" data-va-property="background-color" />
+			<va data-va-verbs="ink" data-va-subjects="entry" data-va-target="input[type=text]" data-va-action="style" data-va-property="foreground-color" />
+	</vai>
+	<nav class="navbar navbar-expand navbar-dark bg-primary">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="index.html">Voice Activation</a>
+			<div class="collapse navbar-collapse" id="navbarButtonsExample">
+				<div class="navbar-nav me-auto mb-2 mb-lg-0">
+					<a class="nav-link " href="en-1.html">En-1</a>
+					<a class="nav-link " href="en-2.html">En-2</a>
+					<a class="nav-link active" aria-current="page" href="en-3.html">En-3</a>
+					<a class="nav-link " href="en-4.html">En-4</a>
+					<a class="nav-link " href="en-5.html">En-5</a>
+					<a class="nav-link " href="en-6.html">En-6</a>
+					<a class="nav-link " href="en-7.html">En-7</a>
+					<a class="nav-link " href="en-8.html">En-8</a>
+					<a class="nav-link " href="fr-1.html">Fr-1</a>
+					<a class="nav-link " href="fr-2.html">Fr-2</a>
+					<a class="nav-link " href="fr-3.html">Fr-3</a>
+					<a class="nav-link " href="fr-4.html">Fr-4</a>
+					<a class="nav-link " href="fr-5.html">Fr-5</a>
+					<a class="nav-link " href="fr-6.html">Fr-6</a>
+					<a class="nav-link " href="fr-7.html">Fr-7</a>
+					<a class="nav-link " href="fr-8.html">Fr-8</a>
+				</div>
+				<div class="navbar-nav">
+					<a class="nav-link" href="about.html">About</a>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="row">
+			<h1>English form sample of Voice Activated</h1>
+		</div>
+		<div class="row">
+			<div class="col form-group">
+				<button type="button" class="btn btn-primary" id="activation-start">
+				  Start
+				</button>
+				<button type="button" class="btn btn-primary" id="activation-stop">
+				  Stop
+				</button>
+				<label class="form-check-label">
+					<input type="checkbox" class="form-check-input" id="activation-toggle-stop"/>
+					Toggle Stop
+				</label>
+				<label class="form-check-label">
+					<input type="checkbox" class="form-check-input" id="activation-balloons"/>
+					Ballons
+				</label>
+				<label class="form-check-label">
+					<input type="checkbox" class="form-check-input" id="activation-debug"/>
+					Debug
+				</label>
+				<span id="activation-report">
+				   By default the page is not activated
+				</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-5">
+				<h2> Developper perspective </h2>
+				The purpose of this sample is to activate inputs putting all rules just after the &lt;body&gt; in a special &lt;vai&gt; element.
+				A second plugin is used to display :
+				<ul>
+				   <li>
+						In a balloon the sentence we can pronounce. 
+						To reduce the size of the balloon, only the first word is displayed
+						and an ellipsis shows that synonyms are defined.
+					</li>
+				   <li>
+						In a debug window, identification process is shown.
+						It allow to understand the different steps are what was wrong.
+						May be ink entry red which is hard to pronounce.
+					</li>
+				</ul>
+			</div>
+			<div class="col-lg-6">
+				<h2> User perspective </h2>
+				In this page, you have to talk in english, colour have to known by the browser.
+				Infinitive verbs or second person.
+				The red dot in the title means recognizer is processing,
+				after a silence it restarts automatically. It has to be stopped manually.
+			</div>
+		</div>
+		<br/>
+		<div class="row">
+			<div class="col-lg-5">
+				On the right of this page it looks like a register page, you can say :
+				<ul>
+					<li> paint page &lt;&lt;colour name&gt;&gt; </li>
+					<li> paint title &lt;&lt;colour name &gt;&gt; </li>
+					<li> paint field &lt;&lt;colour name &gt;&gt; </li>
+					<li> paint entry &lt;&lt;colour name &gt;&gt; </li>
+					<li> ink entry &lt;&lt;colour name &gt;&gt; </li>
+					<li> provider normal <br/> -- selector use normal option</li>
+					<li> provider google <br/> -- selector use google option</li>
+					<li> provider facebook <br/> -- selector use facebook option</li>
+					<li> provider SSO <br/> -- selector use SSO option</li>
+					<li> change ballon <br/> -- show/hide balloons</li>
+					<li> change debug <br/> -- show/hide debug panel</li>
+					<li> change voice <br/> -- show/hide stop button but activation still available</li>
+					<li> stop voice </li>
+				</ul>
+			</div>
+			<form class="col-lg-7">
+				<legend id="legend"> Form sample </legend>
+				<div class="mb-3">
+					<label for="inputName" class="form-label">Name</label>
+					<input type="text" class="form-control" id="inputName" aria-describedby="nameHelp"/>
+					<div id="nameHelp" class="form-text">Uniq name to use</div>
+				</div>
+				<div class="mb-3">
+					<label for="inputAlt1Name" class="form-label">Name one</label>
+					<input type="text" class="form-control" id="inputAlt1Name" aria-describedby="altHelpA1"/>
+					<div id="altHelpA1" class="form-text">Other first name to use</div>
+					<input type="checkbox" class="form-check-input" id="nameShow"/>
+					<label class="form-check-label" for="nameShow">Hide</label>
+				</div>
+				<div class="mb-3">
+					<label for="inputAlt2Name" class="form-label">Name second</label>
+					<input type="text" disabled class="form-control" id="inputAlt2Name" aria-describedby="altHelpA2"/>
+					<div id="altHelpA2" class="form-text">Other second name to use</div>
+					<input type="checkbox" checked class="form-check-input" id="altDisable"/>
+					<label class="form-check-label" for="altDisable">Desactivate</label>
+				</div>
+				<div class="mb-3">
+					<label for="inputPassword" class="form-label">Password</label>
+					<input type="password" class="form-control" id="inputPassword"/>
+				</div>
+				<div class="mb-3">
+					<label for="inputProvider" class="form-label">Provider</label>
+					<select class="form-control"  id="inputProvider" name="inputProvider">
+						<option value="regular" 
+								data-va-verbs="provider" data-va-subjects="normal" data-va-target=".."
+								data-va-action="select" data-va-property="value" data-va-value="./value" >Normal</option>
+						<option value="facebook" 
+								data-va-verbs="provider" data-va-subjects="facebook" data-va-target=".."
+								data-va-action="select" data-va-property="value" data-va-value="./value" >Facebook</option>
+						<option value="google" 
+								data-va-verbs="provider" data-va-subjects="google" data-va-target=".."
+								data-va-action="select" data-va-property="value" data-va-value="./value" >Google</option>
+						<option value="SSO" 
+								data-va-verbs="provider" data-va-subjects="sso" data-va-target=".."
+								data-va-action="select" data-va-property="value" data-va-value="./value" >SSO</option>
+					</select>
+				</div>
+				<div class="mb-3 form-check">
+					<input type="checkbox" class="form-check-input" id="remember"/>
+					<label class="form-check-label" for="remember">Remember Me</label>
+				</div>
+				<button type="submit" class="btn btn-primary" id="submit">
+				submit
+				</button>
+				<div id="submitHelpSuccess" class="form-text text-success" style="display:none">You are now connected</div>
+				<div id="submitHelpError" class="form-text text-danger" style="display:none">Connection failed</div>
+			</form>
+		</div>
+	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/regular.min.js" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/fontawesome.min.js" crossorigin="anonymous"></script>
+	<script src="../src/voice-activation.js"></script>
+	<script src="../src/voice-activation-ui.js"></script>
+	<script src="3.js"></script>
+  </body>
+</html>

@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang=fr>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="../src/balloon.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel="stylesheet" crossorigin="anonymous">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel="stylesheet" crossorigin="anonymous">
+    <title> Exemple de formulaire en Français </title>
+	<style>
+		#left-panel {
+		  position: fixed; 
+		  top: 350px;
+		  left: 10px;
+		  background-color: #f0f0f0;
+		  padding: 15px;
+		  z-index: 100;
+		} 
+		#right-panel {
+		  position: fixed; 
+		  top: 350px;
+		  right: 10px;
+		  background-color: #f0f0f0;
+		  padding: 15px;
+		  z-index: 100;
+		} 
+	</style>
+  <head>
+  <body>
+    <vai id="vai" data-va-loop="true"
+		data-va-derived="true" data-va-synonym="true"
+		data-va-i18n="false" data-va-lang="fr-FR"
+		data-va-nothing="nothing" data-va-many="apply" >
+			<va data-va-verbs="changer" data-va-subjects="voix" data-va-target="#activation-toggle-stop" />
+			<va data-va-verbs="changer" data-va-subjects="ballon" data-va-target="#activation-balloons" />
+			<va data-va-verbs="changer" data-va-subjects="debug,10 bug" data-va-target="#activation-debug" />
+			<va data-va-verbs="stoppe" data-va-subjects="voix" data-va-target="#activation-stop" data-va-allways="true" />
+
+			<va data-va-verbs="remplir" data-va-subjects="nom" data-va-action="fill" data-va-target="#mid-inputName" />
+			<va data-va-verbs="remplir" data-va-subjects="mot de passe, password" data-va-action="fill" data-va-target="#mid-inputPassword" />
+			<va data-va-verbs="changer" data-va-subjects="se souvenir" data-va-target="#mid-remember" />
+			<va data-va-verbs="connecter" data-va-subjects="moi" data-va-target="#mid-submit" />
+
+			<va data-va-verbs="remplir" data-va-subjects="nom" data-va-action="fill" data-va-target="#left-inputName" />
+			<va data-va-verbs="remplir" data-va-subjects="mot de passe, password" data-va-action="fill" data-va-target="#left-inputPassword" />
+			<va data-va-verbs="changer" data-va-subjects="se souvenir" data-va-target="#left-remember" />
+			<va data-va-verbs="connecter" data-va-subjects="moi" data-va-target="#left-submit" />
+
+			<va data-va-verbs="remplir" data-va-subjects="nom" data-va-action="fill" data-va-target="#right-inputName" />
+			<va data-va-verbs="remplir" data-va-subjects="mot de passe, password" data-va-action="fill" data-va-target="#right-inputPassword" />
+			<va data-va-verbs="changer" data-va-subjects="se souvenir" data-va-target="#right-remember" />
+			<va data-va-verbs="connecter" data-va-subjects="moi" data-va-target="#right-submit" />
+	</vai>
+	<nav class="navbar navbar-expand navbar-dark bg-primary">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="index.html">Voice Activation</a>
+			<div class="collapse navbar-collapse" id="navbarButtonsExample">
+				<div class="navbar-nav me-auto mb-2 mb-lg-0">
+					<a class="nav-link " href="en-1.html">En-1</a>
+					<a class="nav-link " href="en-2.html">En-2</a>
+					<a class="nav-link " href="en-3.html">En-3</a>
+					<a class="nav-link " href="en-4.html">En-4</a>
+					<a class="nav-link " href="en-5.html">En-5</a>
+					<a class="nav-link " href="en-6.html">En-6</a>
+					<a class="nav-link " href="en-7.html">En-7</a>
+					<a class="nav-link " href="en-8.html">En-8</a>
+					<a class="nav-link " href="fr-1.html">Fr-1</a>
+					<a class="nav-link " href="fr-2.html">Fr-2</a>
+					<a class="nav-link " href="fr-3.html">Fr-3</a>
+					<a class="nav-link active" aria-current="page" href="fr-4.html">Fr-4</a>
+					<a class="nav-link " href="fr-5.html">Fr-5</a>
+					<a class="nav-link " href="fr-6.html">Fr-6</a>
+					<a class="nav-link " href="fr-7.html">Fr-7</a>
+					<a class="nav-link " href="fr-8.html">Fr-8</a>
+				</div>
+				<div class="navbar-nav">
+					<a class="nav-link" href="about.html">About</a>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="row">
+			<h1>Exemple de formulaire Activable à la voix</h1>
+		</div>
+		<div class="row">
+			<div class="col form-group">
+				<button type="button" class="btn btn-primary" id="activation-start">
+				  Start
+				</button>
+				<button type="button" class="btn btn-primary" id="activation-stop">
+				  Stop
+				</button>
+				<label class="form-check-label">
+					<input type="checkbox" class="form-check-input" id="activation-toggle-stop"/>
+					Toggle Stop
+				</label>
+				<label class="form-check-label">
+					<input type="checkbox" class="form-check-input" id="activation-balloons"/>
+					Ballons
+				</label>
+				<label class="form-check-label">
+					<input type="checkbox" class="form-check-input" id="activation-debug"/>
+					Debug
+				</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-5">
+				<h2> Point de vue développeur </h2>
+				L'objectif de cette page est de montrer l'activation de plusieurs formulaires
+				comportant des champs communs. Mais, les formulaires peuvent être cachés/dévoilés
+				selon une logique métier (ici on click sur un bouton). Il y a un formulaire à droite
+				et un formulaire à gauche. <br/>
+				Les règles d'activations ciblent spécifiquement les formulaires.
+				Il y a donc trois fois les même règles mais pas pour les mêmes cibles.
+				Quand on prononce les mots ce ne seront que les formulaires visiblent qui seront renseignés.
+			</div>
+			<div class="col-lg-6">
+				<h2> Point de vue utilisateur </h2>
+				Dans cette page, il faut parler Français.
+				Les verbes sont à l'infinitif ou à la deuxième personne.
+				Le point rouge dans le titre montre la reconaissance de mots.
+				Après un silence il se relance automatiquement, il faut arrêter manuellement la reconnaissance.
+				Le champs mote de passe est un simple text pour facilement visualiser le contenu.
+				<div>
+					<button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#left-panel"> Gauche </button>
+					<button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#right-panel"> Droite </button>
+				</div>
+			</div>
+		</div>
+		<br/>
+		<div class="row">
+			<div class="col-lg-5">
+				Sur le coté droit de la page, un formulaire de connexion, il est possible de prononcer :
+				<ul>
+					<li> remplir nom &lt;&lt;nom(s)&gt;&gt; </li>
+					<li> remplir password &lt;&lt;quelque chose&gt;&gt; <br/>-- lisible car c'est un text et pas un password</li>
+					<li> changer se souvenir <br/>-- bascule la case à cocher</li>
+					<li> connecter moi </li>
+					<li> changer ballon <br/> -- permet d'afficher/cacher les ballons</li>
+					<li> changer debug <br/> -- permet d'afficher/cacher la fenêtre de debug</li>
+					<li> changer voix <br/> -- permet de cacher le bouton stop mais la commande vocale est toujours valide</li>
+					<li> stop voix </li>
+				</ul>
+			</div>
+			<form id="mid" class="col-lg-7">
+				<legend id="mid-legend"> Formulaire d'exemple </legend>
+				<div class="mb-3">
+					<label for="mid-inputName" class="form-label">Nom</label>
+					<input type="text" class="form-control" id="mid-inputName" aria-describedby="mid-nameHelp"/>
+					<div id="mid-nameHelp" class="form-text">Nom à utiliser</div>
+				</div>
+				<div class="mb-3">
+					<label for="mid-inputPassword" class="form-label">Mot de passe</label>
+					<input type="text" class="form-control" id="mid-inputPassword"/>
+				</div>
+				<div class="mb-3">
+					<input type="checkbox" class="form-check-input" id="mid-remember"/>
+					<label class="form-check-label" for="mid-remember">Se souvenir</label>
+				</div>
+				<button type="submit" class="btn btn-primary" id="mid-submit">
+				Soumettre
+				</button>
+				<div id="mid-submitHelp" class="form-text"></div>
+			</form>
+		</div>
+	
+	</div>
+
+	<div id="left-panel" class="collapse">
+		<form id="left">
+			<legend id="left-legend"> Formulaire à gauche </legend>
+			<div class="mb-3">
+				<label for="left-inputName" class="form-label">Nom</label>
+				<input type="text" class="form-control" id="left-inputName" aria-describedby="nameHelp"/>
+				<div id="left-nameHelp" class="form-text">Nom à utiliser</div>
+			</div>
+			<div class="mb-3">
+				<label for="left-inputPassword" class="form-label">Mot de passe</label>
+				<input type="text" class="form-control" id="left-inputPassword"/>
+			</div>
+			<div class="mb-3">
+				<input type="checkbox" class="form-check-input" id="left-remember"/>
+				<label class="form-check-label" for="left-remember">Se souvenir</label>
+			</div>
+			<button type="submit" class="btn btn-primary" id="left-submit">
+			Soumettre
+			</button>
+			<div id="left-submitHelp" class="form-text"></div>
+		</form>
+	</div>
+	<div id="right-panel" class="collapse">
+		<form id="right">
+			<legend id="right-legend"> Formulaire à droite </legend>
+			<div class="mb-3">
+				<label for="right-inputName" class="form-label">Nom</label>
+				<input type="text" class="form-control" id="right-inputName" aria-describedby="nameHelp"/>
+				<div id="right-nameHelp" class="form-text">Nom à utiliser</div>
+			</div>
+			<div class="mb-3">
+				<label for="right-inputPassword" class="form-label">Mot de passe</label>
+				<input type="text" class="form-control" id="right-inputPassword"/>
+			</div>
+			<div class="mb-3">
+				<input type="checkbox" class="form-check-input" id="right-remember"/>
+				<label class="form-check-label" for="right-remember">Se souvenir</label>
+			</div>
+			<button type="submit" class="btn btn-primary" id="right-submit">
+			Soumettre
+			</button>
+			<div id="right-submitHelp" class="form-text"></div>
+		</form>
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/regular.min.js" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/fontawesome.min.js" crossorigin="anonymous"></script>
+	<script src="../src/voice-activation.js"></script>
+	<script src="../src/voice-activation-ui.js"></script>
+	<script src="4.js"></script>
+  </body>
+</html>

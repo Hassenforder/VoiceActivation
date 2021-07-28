@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang=fr>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.min.css" rel="stylesheet"  crossorigin="anonymous">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel="stylesheet" crossorigin="anonymous">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css" rel="stylesheet" crossorigin="anonymous">
+	
+    <title> Form sample in English </title>
+  <head>
+  <body>
+    <vai id="vai" data-va-loop="false"
+		data-va-derived="false" data-va-synonym="false"
+		data-va-i18n="false" data-va-lang="en-US"
+		data-va-nothing="nothing" data-va-many="apply" >
+			<va data-va-verbs="stop" data-va-subjects="voice" data-va-target="#activation-stop" data-va-allways="true" />
+			<va data-va-verbs="fill" data-va-subjects="title" data-va-action="fill" data-va-target="#legend" />
+			<va data-va-verbs="fill" data-va-subjects="search" data-va-action="fill" data-va-target=".search-field" />
+			<va data-va-verbs="sort" data-va-subjects="id, 1, one" data-va-target="#grid thead th:nth-child(1) a" />
+			<va data-va-verbs="sort" data-va-subjects="sender, 2, two" data-va-target="#grid thead th:nth-child(2) a"/>
+			<va data-va-verbs="sort" data-va-subjects="received, 3, three" data-va-target="#grid thead th:nth-child(3) a"/>
+			<va data-va-verbs="go, goto" data-va-subjects="begin" data-va-target="a[data-page='first']" />
+			<va data-va-verbs="go, goto" data-va-subjects="before" data-va-target="a[data-page='prev']" />
+			<va data-va-verbs="go, goto" data-va-subjects="1,one,first" data-va-target="a[data-page='1']" />
+			<va data-va-verbs="go, goto" data-va-subjects="2,two,second" data-va-target="a[data-page='2']" />
+			<va data-va-verbs="go, goto" data-va-subjects="3,three,third" data-va-target="a[data-page='3']" />
+			<va data-va-verbs="go, goto" data-va-subjects="4,four, forth" data-va-target="a[data-page='4']" />
+			<va data-va-verbs="go, goto" data-va-subjects="5,five, fifth" data-va-target="a[data-page='5']" />
+			<va data-va-verbs="go, goto" data-va-subjects="next" data-va-target="a[data-page='next']" />
+			<va data-va-verbs="go, goto" data-va-subjects="end,last" data-va-target="a[data-page='last']" />
+			<va data-va-verbs="edit" data-va-subjects="1,one,first" data-va-target="tbody tr:nth-child(1) button.command-edit" />
+			<va data-va-verbs="delete, remove" data-va-subjects="1,one,first" data-va-target="tbody tr:nth-child(1) button.command-delete" />
+			<va data-va-verbs="edit" data-va-subjects="2,two,second" data-va-target="tbody tr:nth-child(2) button.command-edit" />
+			<va data-va-verbs="delete, remove" data-va-subjects="2,two,second" data-va-target="tbody tr:nth-child(2) button.command-delete" />
+			<va data-va-verbs="edit" data-va-subjects="3,three,third" data-va-target="tbody tr:nth-child(3) button.command-edit" />
+			<va data-va-verbs="delete, remove" data-va-subjects="3,three,third" data-va-target="tbody tr:nth-child(3) button.command-delete" />
+			<va data-va-verbs="edit" data-va-subjects="4,four, forth" data-va-target="tbody tr:nth-child(4) button.command-edit" />
+			<va data-va-verbs="delete, remove" data-va-subjects="4,four, forth" data-va-target="tbody tr:nth-child(4) button.command-delete" />
+			<va data-va-verbs="edit" data-va-subjects="5,five, fifth" data-va-target="tbody tr:nth-child(5) button.command-edit" />
+			<va data-va-verbs="delete, remove" data-va-subjects="5,five, fifth" data-va-target="tbody tr:nth-child(5) button.command-delete" />
+	</vai>
+	<nav class="navbar navbar-expand navbar-dark bg-primary">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="index.html">Voice Activation</a>
+			<div class="collapse navbar-collapse" id="navbarButtonsExample">
+				<div class="navbar-nav me-auto mb-2 mb-lg-0">
+					<a class="nav-link " href="en-1.html">En-1</a>
+					<a class="nav-link " href="en-2.html">En-2</a>
+					<a class="nav-link " href="en-3.html">En-3</a>
+					<a class="nav-link " href="en-4.html">En-4</a>
+					<a class="nav-link active" aria-current="page" href="en-5.html">En-5</a>
+					<a class="nav-link " href="en-6.html">En-6</a>
+					<a class="nav-link " href="en-7.html">En-7</a>
+					<a class="nav-link " href="en-8.html">En-8</a>
+					<a class="nav-link " href="fr-1.html">Fr-1</a>
+					<a class="nav-link " href="fr-2.html">Fr-2</a>
+					<a class="nav-link " href="fr-3.html">Fr-3</a>
+					<a class="nav-link " href="fr-4.html">Fr-4</a>
+					<a class="nav-link " href="fr-5.html">Fr-5</a>
+					<a class="nav-link " href="fr-6.html">Fr-6</a>
+					<a class="nav-link " href="fr-7.html">Fr-7</a>
+					<a class="nav-link " href="fr-8.html">Fr-8</a>
+				</div>
+				<div class="navbar-nav">
+					<a class="nav-link" href="about.html">About</a>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="row">
+			<h1>English form sample of Voice Activated</h1>
+		</div>
+		<div class="row">
+			<div class="col">
+				<button type="button" class="btn btn-primary" id="activation-start">
+				  Start
+				</button>
+				<button type="button" class="btn btn-primary" id="activation-stop">
+				  Stop
+				</button>
+				<span id="activation-report">
+				   By default the page is not activated
+				</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-5">
+				<h2> Developper perspective </h2>
+				The purpose of this page is to show how to activate a grid generate by a foreign library.
+				Difficulty is in find the querySelector to target the elements even when the generator semove/replace
+				initial elements with its own without copy data-va-* attributes.
+				<br/>
+				It is hard for the dev team but next version can propose generic ways.
+
+			</div>
+			<div class="col-lg-6">
+				<h2> User perspective </h2>
+				In this page, you have to talk in english, colour have to known by the browser.
+				Infinitive verbs or second person.
+				The red dot in the title means recognizer is processing,
+				after a silence it stops automatically.
+			</div>
+		</div>
+		<br/>
+		<div class="row">
+			<div class="col-lg-5">
+				On the right of this page an activated grid : <br/>
+				<ul>
+					<li> fill title &lt;&lt;new title&gt;&gt; </li>
+					<li> fill search &lt;&lt;letter(s)&gt;&gt; <br/> -- can't add automatically the &lt;enter&gt; </li>
+
+					<li> sort 1 or sort id <br/>-- use id col to sort the grid and/or toggle order </li>
+					<li> sort 2 ou sort sender<br/>-- use sender col to sort the grid and/or toggle order </li>
+					<li> sort 3 ou sort received<br/>-- use received col to sort the grid and/or toggle order </li>
+					<li> go begin <br/>-- goto first page </li>
+					<li> go before <br/>-- goto previous page </li>
+					<li> go(page) 1 <br/>-- goto page 1 </li>
+					<li> go (page) 2 <br/>-- goto 2 </li>
+					<li> go (page) 3 <br/>-- goto 3 </li>
+					<li> go (page) 4 <br/>-- goto 4 </li>
+					<li> go (page) 5 <br/>-- goto 5 </li>
+					<li> go next <br/>-- goto next page </li>
+					<li> go last (page) <br/>-- goto last page </li>
+					<li> edit 1 or edit first <br/>-- opens edit popup for the first row </li>
+					<li> edit 2 or edit second <br/>-- opens edit popup for the second row </li>
+					<li> edit 3 or edit third <br/>-- opens edit popup for the third row </li>
+					<li> edit 4 or edit fourth <br/>-- opens edit popup for the fourth row </li>
+					<li> edit 5 or edit fifth <br/>-- opens edit popup for the fifth row </li>
+					<li> delete 1 <br/>-- opens delete popup for the first row </li>
+					<li> delete 2 <br/>-- opens delete popup for the second row </li>
+					<li> delete 3 <br/>-- opens delete popup for the third row </li>
+					<li> delete 4 <br/>-- opens delete popup for the fourth row </li>
+					<li> delete 5 <br/>-- opens delete popup for the fifth row </li>
+					<li> stop voice </li>
+				</ul>
+			</div>
+			<div class="col-lg-7">
+				<h2 id="legend"> A wonderfull boot-grid grid</h2>
+				<table id="grid" class="table table-condensed table-hover table-striped">
+                    <thead>
+                        <tr>
+							<th data-column-id="id" class="text-left" style="">
+								<a href="javascript:void(0);" class="column-header-anchor sortable">
+									<span class="text">ID</span>
+									<span class="icon fa "></span>
+								</a>
+							</th>
+							<th data-column-id="sender" class="text-left" style="">
+								<a href="javascript:void(0);" class="column-header-anchor sortable">
+									<span class="text">Sender</span>
+									<span class="icon fa "></span>
+								</a>
+							</th>
+							<th data-column-id="received" class="text-left" style="">
+								<a href="javascript:void(0);" class="column-header-anchor sortable">
+									<span class="text">Received</span>
+									<span class="icon fa fa-sort-desc"></span>
+								</a>
+							</th>
+							<th data-column-id="actions" data-formatter="actions" data-sortable="false">Actions</th>
+						</tr>
+                    </thead>
+                    <tbody>
+						<tr data-row-id="0">
+							<td class="text-left" style="">10253</td>
+							<td class="text-left" style="">eduardo@pingpong.com</td>
+							<td class="text-left" style="">29.10.2013</td>
+						</tr>
+						<tr data-row-id="1">
+							<td class="text-left" style="">10252</td>
+							<td class="text-left" style="">robert@bingo.com</td>
+							<td class="text-left" style="">28.10.2013</td>
+						</tr>
+						<tr data-row-id="2">
+							<td class="text-left" style="">10251</td>
+							<td class="text-left" style="">simon@yahoo.com</td>
+							<td class="text-left" style="">27.10.2013</td>
+						</tr>
+						<tr data-row-id="3">
+							<td class="text-left" style="">10250</td>
+							<td class="text-left" style="">tim@microsoft.com</td>
+							<td class="text-left" style="">26.10.2013</td>
+						</tr>
+						<tr data-row-id="4">
+							<td class="text-left" style="">10249</td>
+							<td class="text-left" style="">lila@google.com</td>
+							<td class="text-left" style="">25.10.2013</td>
+						</tr>
+						<tr data-row-id="5">
+							<td class="text-left" style="">10248</td>
+							<td class="text-left" style="">eduardo@pingpong.com</td>
+							<td class="text-left" style="">24.10.2013</td>
+						</tr>
+						<tr data-row-id="6">
+							<td class="text-left" style="">10247</td>
+							<td class="text-left" style="">robert@bingo.com</td>
+							<td class="text-left" style="">23.10.2013</td>
+						</tr>
+						<tr data-row-id="7">
+							<td class="text-left" style="">10246</td>
+							<td class="text-left" style="">simon@yahoo.com</td>
+							<td class="text-left" style="">22.10.2013</td>
+						</tr>
+						<tr data-row-id="8">
+							<td class="text-left" style="">10245</td>
+							<td class="text-left" style="">tim@microsoft.com</td>
+							<td class="text-left" style="">21.10.2013</td>
+						</tr>
+						<tr data-row-id="9">
+							<td class="text-left" style="">10244</td>
+							<td class="text-left" style="">lila@google.com</td>
+							<td class="text-left" style="">20.10.2013</td>
+						</tr>
+						<tr data-row-id="10">
+							<td class="text-left" style="">10243</td>
+							<td class="text-left" style="">fernandez@pingpong.com</td>
+							<td class="text-left" style="">29.10.2013</td>
+						</tr>
+						<tr data-row-id="11">
+							<td class="text-left" style="">10242</td>
+							<td class="text-left" style="">albert@bingo.com</td>
+							<td class="text-left" style="">28.10.2013</td>
+						</tr>
+						<tr data-row-id="12">
+							<td class="text-left" style="">10241</td>
+							<td class="text-left" style="">simone@yahoo.com</td>
+							<td class="text-left" style="">27.10.2013</td>
+						</tr>
+						<tr data-row-id="13">
+							<td class="text-left" style="">10240</td>
+							<td class="text-left" style="">mat@microsoft.com</td>
+							<td class="text-left" style="">26.10.2013</td>
+						</tr>
+						<tr data-row-id="14">
+							<td class="text-left" style="">10239</td>
+							<td class="text-left" style="">lilya@google.com</td>
+							<td class="text-left" style="">25.10.2013</td>
+						</tr>
+						<tr data-row-id="15">
+							<td class="text-left" style="">10238</td>
+							<td class="text-left" style="">fernandez@pingpong.com</td>
+							<td class="text-left" style="">24.10.2013</td>
+						</tr>
+						<tr data-row-id="16">
+							<td class="text-left" style="">10237</td>
+							<td class="text-left" style="">albert@bingo.com</td>
+							<td class="text-left" style="">23.10.2013</td>
+						</tr>
+						<tr data-row-id="17">
+							<td class="text-left" style="">10236</td>
+							<td class="text-left" style="">simone@yahoo.com</td>
+							<td class="text-left" style="">22.10.2013</td>
+						</tr>
+						<tr data-row-id="18">
+							<td class="text-left" style="">10235</td>
+							<td class="text-left" style="">mat@microsoft.com</td>
+							<td class="text-left" style="">21.10.2013</td>
+						</tr>
+						<tr data-row-id="19">
+							<td class="text-left" style="">10234</td>
+							<td class="text-left" style="">lilya@google.com</td>
+							<td class="text-left" style="">20.10.2013</td>
+						</tr>
+						<tr data-row-id="20">
+							<td class="text-left" style="">10233</td>
+							<td class="text-left" style="">zapatta@pingpong.com</td>
+							<td class="text-left" style="">29.10.2013</td>
+						</tr>
+						<tr data-row-id="21">
+							<td class="text-left" style="">10232</td>
+							<td class="text-left" style="">bernard@bingo.com</td>
+							<td class="text-left" style="">28.10.2013</td>
+						</tr>
+						<tr data-row-id="22">
+							<td class="text-left" style="">10231</td>
+							<td class="text-left" style="">thomas@yahoo.com</td>
+							<td class="text-left" style="">27.10.2013</td>
+						</tr>
+						<tr data-row-id="23">
+							<td class="text-left" style="">10230</td>
+							<td class="text-left" style="">jan@microsoft.com</td>
+							<td class="text-left" style="">26.10.2013</td>
+						</tr>
+						<tr data-row-id="24">
+							<td class="text-left" style="">10229</td>
+							<td class="text-left" style="">doris@google.com</td>
+							<td class="text-left" style="">25.10.2013</td>
+						</tr>
+						<tr data-row-id="25">
+							<td class="text-left" style="">10228</td>
+							<td class="text-left" style="">garcimore@pingpong.com</td>
+							<td class="text-left" style="">24.10.2013</td>
+						</tr>
+						<tr data-row-id="26">
+							<td class="text-left" style="">10227</td>
+							<td class="text-left" style="">claude@bingo.com</td>
+							<td class="text-left" style="">23.10.2013</td>
+						</tr>
+						<tr data-row-id="27">
+							<td class="text-left" style="">10226</td>
+							<td class="text-left" style="">patrick@yahoo.com</td>
+							<td class="text-left" style="">22.10.2013</td>
+						</tr>
+						<tr data-row-id="28">
+							<td class="text-left" style="">10225</td>
+							<td class="text-left" style="">jon@microsoft.com</td>
+							<td class="text-left" style="">21.10.2013</td>
+						</tr>
+						<tr data-row-id="29">
+							<td class="text-left" style="">10224</td>
+							<td class="text-left" style="">aicha@google.com</td>
+							<td class="text-left" style="">20.10.2013</td>
+						</tr>
+						<tr data-row-id="30">
+							<td class="text-left" style="">10223</td>
+							<td class="text-left" style="">hercule@pingpong.com</td>
+							<td class="text-left" style="">29.10.2013</td>
+						</tr>
+						<tr data-row-id="31">
+							<td class="text-left" style="">10222</td>
+							<td class="text-left" style="">laurent@bingo.com</td>
+							<td class="text-left" style="">28.10.2013</td>
+						</tr>
+						<tr data-row-id="32">
+							<td class="text-left" style="">10221</td>
+							<td class="text-left" style="">jacques@yahoo.com</td>
+							<td class="text-left" style="">27.10.2013</td>
+						</tr>
+						<tr data-row-id="33">
+							<td class="text-left" style="">10220</td>
+							<td class="text-left" style="">pam@microsoft.com</td>
+							<td class="text-left" style="">26.10.2013</td>
+						</tr>
+						<tr data-row-id="34">
+							<td class="text-left" style="">10219</td>
+							<td class="text-left" style="">gladys@google.com</td>
+							<td class="text-left" style="">25.10.2013</td>
+						</tr>
+						<tr data-row-id="35">
+							<td class="text-left" style="">10218</td>
+							<td class="text-left" style="">tamarez@pingpong.com</td>
+							<td class="text-left" style="">24.10.2013</td>
+						</tr>
+						<tr data-row-id="36">
+							<td class="text-left" style="">10217</td>
+							<td class="text-left" style="">kevin@bingo.com</td>
+							<td class="text-left" style="">23.10.2013</td>
+						</tr>
+						<tr data-row-id="37">
+							<td class="text-left" style="">10216</td>
+							<td class="text-left" style="">maurice@yahoo.com</td>
+							<td class="text-left" style="">22.10.2013</td>
+						</tr>
+						<tr data-row-id="38">
+							<td class="text-left" style="">10215</td>
+							<td class="text-left" style="">steve@microsoft.com</td>
+							<td class="text-left" style="">21.10.2013</td>
+						</tr>
+						<tr data-row-id="39">
+							<td class="text-left" style="">10214</td>
+							<td class="text-left" style="">goldy@google.com</td>
+							<td class="text-left" style="">20.10.2013</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/regular.min.js" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/fontawesome.min.js" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.min.js" crossorigin="anonymous"></script>
+	<script src="jquery.bootgrid.fa+.js"></script>
+	<script src="../src/voice-activation.js"></script>
+	<script src="5.js"></script>
+  </body>
+</html>

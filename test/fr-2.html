@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang=fr>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title> Exemple de formulaire en Français </title>
+  <head>
+  <body>
+    <vai id="vai" data-va-loop="false"
+		data-va-derived="true" data-va-synonym="true"
+		data-va-i18n="false" data-va-lang="fr-FR"
+		data-va-nothing="nothing" data-va-many="apply" >
+			<va data-va-verbs="stoppe" data-va-subjects="voix" data-va-target="#activation-stop" />
+			<va data-va-verbs="remplir" data-va-subjects="titre" data-va-action="fill" data-va-target="#legend" />
+			<va data-va-verbs="remplir" data-va-subjects="nom" data-va-action="fill" data-va-target="#inputName" />
+			<va data-va-verbs="remplir" data-va-subjects="un" data-va-action="fill" data-va-target="#inputAlt1Name"/>
+			<va data-va-verbs="remplir" data-va-subjects="autre, alternatif, alternative" data-va-action="fill" data-va-target="#inputAlt1Name" />
+			<va data-va-verbs="cocher" data-va-subjects="caché,cacher" data-va-action="check" data-va-target="#nameShow" />
+			<va data-va-verbs="décocher" data-va-subjects="caché,cacher" data-va-action="uncheck" data-va-target="#nameShow" />
+			<va data-va-verbs="remplir" data-va-subjects="deux" data-va-action="fill" data-va-target="#inputAlt2Name" />
+			<va data-va-verbs="remplir" data-va-subjects="autre, alternatif, alternative" data-va-action="fill" data-va-target="#inputAlt2Name" />
+			<va data-va-verbs="activer" data-va-subjects="désactivé, désactiver" data-va-action="check" data-va-target="#altDisable" />
+			<va data-va-verbs="désactiver" data-va-subjects="désactivé, désactiver" data-va-action="uncheck" data-va-target="#altDisable" />
+			<va data-va-verbs="remplir" data-va-subjects="mot de passe, password" data-va-action="fill" data-va-target="#inputPassword" />
+			<va data-va-verbs="changer" data-va-subjects="se souvenir" data-va-target="#remember" />
+			<va data-va-verbs="connecter" data-va-subjects="moi" data-va-target="#submit" />
+	</vai>
+	<nav class="navbar navbar-expand navbar-dark bg-primary">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="index.html">Voice Activation</a>
+			<div class="collapse navbar-collapse" id="navbarButtonsExample">
+				<div class="navbar-nav me-auto mb-2 mb-lg-0">
+					<a class="nav-link " href="en-1.html">En-1</a>
+					<a class="nav-link " href="en-2.html">En-2</a>
+					<a class="nav-link " href="en-3.html">En-3</a>
+					<a class="nav-link " href="en-4.html">En-4</a>
+					<a class="nav-link " href="en-5.html">En-5</a>
+					<a class="nav-link " href="en-6.html">En-6</a>
+					<a class="nav-link " href="en-7.html">En-7</a>
+					<a class="nav-link " href="en-8.html">En-8</a>
+					<a class="nav-link " href="fr-1.html">Fr-1</a>
+					<a class="nav-link active" aria-current="page" href="fr-2.html">Fr-2</a>
+					<a class="nav-link " href="fr-3.html">Fr-3</a>
+					<a class="nav-link " href="fr-4.html">Fr-4</a>
+					<a class="nav-link " href="fr-5.html">Fr-5</a>
+					<a class="nav-link " href="fr-6.html">Fr-6</a>
+					<a class="nav-link " href="fr-7.html">Fr-7</a>
+					<a class="nav-link " href="fr-8.html">Fr-8</a>
+				</div>
+				<div class="navbar-nav">
+					<a class="nav-link" href="about.html">About</a>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="row">
+			<h1>Exemple de formulaire Activable à la voix</h1>
+		</div>
+		<div class="row">
+			<div class="col">
+				<button type="button" class="btn btn-primary" id="activation-start">
+				  Start
+				</button>
+				<button type="button" class="btn btn-primary" id="activation-stop">
+				  Stop
+				</button>
+				<span id="activation-report">
+				   Par défaut la page n'est pas activée
+				</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-5">
+				<h2> Point de vue développeur </h2>
+				L'objectif de cette page est de montrer l'activation en plaçant les règles dans un élément spécial &lt;vai&gt; juste après le &lt;body&gt;.
+			</div>
+			<div class="col-lg-6">
+				<h2> Point de vue utilisateur </h2>
+				Dans cette page, il faut parler Français.
+				Les verbes sont à l'infinitif ou à la deuxième personne.
+				Le point rouge dans le titre montre la reconaissance de mots,
+				après un silence il stoppe automatiquement.
+			</div>
+		</div>
+		<br/>
+		<div class="row">
+			<div class="col-lg-5">
+				Sur le coté droit de la page, un formulaire de connexion, il est possible de prononcer :
+				<ul>
+					<li> remplir titre &lt;&lt;nouveau titre&gt;&gt; </li>
+					<li> remplir nom &lt;&lt;nom(s)&gt;&gt; </li>
+					<li> remplir un &lt;&lt;nom(s)&gt;&gt;  <br/>-- si alt 1 est visible et autorisé le champs nom un est rempli </li>
+					<li> remplir deux &lt;&lt;nom(s)&gt;&gt; <br/>-- si alt 2 est visible et autorisé le champs nom deux est rempli </li>
+					<li> remplir alternatif &lt;&lt;nom(s)&gt;&gt; <br/>-- si les deux champs sont visibles et autorisés ils seront remplis ensemble </li>
+					<li> remplir autre &lt;&lt;nom(s)&gt;&gt; <br/>-- si les deux champs sont visibles et autorisés ils seront remplis ensemble </li>
+					<li> remplir password &lt;&lt;quelque chose&gt;&gt; <br/>-- pas lisible mais probablement rempli de travers</li>
+					<li> cocher cacher <br/>-- coche uniquement la case à cocher </li>
+					<li> décocher cacher <br/>-- décoche uniquement la case à cocher </li>
+					<li> activer désactiver <br/>-- coche uniquement la case à cocher </li>
+					<li> désactiver désactiver <br/>-- décoche uniquement la case à cocher </li>
+					<li> clicker remember <br/>-- bascule la case à cocher</li>
+					<li> connecter moi </li>
+					<li> stop voix </li>
+				</ul>
+			</div>
+			<form class="col-lg-7">
+				<legend id="legend"> Formulaire d'exemple </legend>
+				<div class="mb-3">
+					<label for="inputName" class="form-label">Nom</label>
+					<input type="text" class="form-control" id="inputName" aria-describedby="nameHelp"/>
+					<div id="nameHelp" class="form-text">Nom à utiliser</div>
+				</div>
+				<div class="mb-3">
+					<label for="inputAlt1Name" class="form-label">Nom un</label>
+					<input type="text" class="form-control" id="inputAlt1Name" aria-describedby="altHelpA1"/>
+					<div id="altHelpA1" class="form-text">Nom alternatif 1 à utiliser</div>
+					<input type="checkbox" class="form-check-input" id="nameShow"/>
+					<label class="form-check-label" for="nameShow">Cacher</label>
+				</div>
+				<div class="mb-3">
+					<label for="inputAlt2Name" class="form-label">Nom deux</label>
+					<input type="text" disabled class="form-control" id="inputAlt2Name" aria-describedby="altHelpA2"/>
+					<div id="altHelpA2" class="form-text">Nom alternatif 2 à utiliser</div>
+					<input type="checkbox" checked class="form-check-input" id="altDisable"/>
+					<label class="form-check-label" for="altDisable">Désactiver</label>
+				</div>
+				<div class="mb-3">
+					<label for="inputPassword" class="form-label">Mot de passe</label>
+					<input type="password" class="form-control" id="inputPassword"/>
+				</div>
+				<div class="mb-3 form-check">
+					<input type="checkbox" class="form-check-input" id="remember"/>
+					<label class="form-check-label" for="remember">Se souvenir</label>
+				</div>
+				<button type="submit" class="btn btn-primary" id="submit">
+				Soumettre
+				</button>
+				<div id="submitHelpSuccess" class="form-text text-success" style="display:none">Vous êtes maintenant connecté</div>
+				<div id="submitHelpError" class="form-text text-danger" style="display:none">La connexion a échouée</div>
+			</form>
+		</div>
+	</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	<script src="../src/voice-activation.js"></script>
+	<script src="1-2.js"></script>
+  </body>
+</html>

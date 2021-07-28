@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang=en>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title> Form sample in English </title>
+  <head>
+  <body >
+    <vai id="vai" data-va-loop="false"
+		data-va-derived="false" data-va-synonym="false"
+		data-va-i18n="false" data-va-lang="en-US"
+		data-va-nothing="nothing" data-va-many="apply" >
+			<va data-va-verbs="stop" data-va-subjects="voice" data-va-target="#activationStop" />
+			<va data-va-verbs="fill" data-va-subjects="title" data-va-action="fill" data-va-target="#legend" />
+			<va data-va-verbs="fill" data-va-subjects="name" data-va-action="fill" data-va-target="#inputName" />
+			<va data-va-verbs="fill" data-va-subjects="one, first" data-va-action="fill" data-va-target="#inputAlt1Name"/>
+			<va data-va-verbs="fill" data-va-subjects="other" data-va-action="fill" data-va-target="#inputAlt1Name" />
+			<va data-va-verbs="check" data-va-subjects="hidden" data-va-action="check" data-va-target="#nameShow" />
+			<va data-va-verbs="uncheck" data-va-subjects="hidden" data-va-action="uncheck" data-va-target="#nameShow" />
+			<va data-va-verbs="fill" data-va-subjects="two, second" data-va-action="fill" data-va-target="#inputAlt2Name" />
+			<va data-va-verbs="fill" data-va-subjects="other" data-va-action="fill" data-va-target="#inputAlt2Name" />
+			<va data-va-verbs="activate" data-va-subjects="deactivate" data-va-action="check" data-va-target="#altDisable" />
+			<va data-va-verbs="deactivate" data-va-subjects="deactivate" data-va-action="uncheck" data-va-target="#altDisable" />
+			<va data-va-verbs="fill" data-va-subjects="password" data-va-action="fill" data-va-target="#inputPassword" />
+			<va data-va-verbs="change" data-va-subjects="remember" data-va-target="#remember" />
+			<va data-va-verbs="connect" data-va-subjects="me" data-va-target="#submit" />
+	</vai>
+	<nav class="navbar navbar-expand navbar-dark bg-primary">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="index.html">Voice Activation</a>
+			<div class="collapse navbar-collapse" id="navbarButtonsExample">
+				<div class="navbar-nav me-auto mb-2 mb-lg-0">
+					<a class="nav-link " href="en-1.html">En-1</a>
+					<a class="nav-link active" aria-current="page" href="en-2.html">En-2</a>
+					<a class="nav-link " href="en-3.html">En-3</a>
+					<a class="nav-link " href="en-4.html">En-4</a>
+					<a class="nav-link " href="en-5.html">En-5</a>
+					<a class="nav-link " href="en-6.html">En-6</a>
+					<a class="nav-link " href="en-7.html">En-7</a>
+					<a class="nav-link " href="en-8.html">En-8</a>
+					<a class="nav-link " href="fr-1.html">Fr-1</a>
+					<a class="nav-link " href="fr-2.html">Fr-2</a>
+					<a class="nav-link " href="fr-3.html">Fr-3</a>
+					<a class="nav-link " href="fr-4.html">Fr-4</a>
+					<a class="nav-link " href="fr-5.html">Fr-5</a>
+					<a class="nav-link " href="fr-6.html">Fr-6</a>
+					<a class="nav-link " href="fr-7.html">Fr-7</a>
+					<a class="nav-link " href="fr-8.html">Fr-8</a>
+				</div>
+				<div class="navbar-nav">
+					<a class="nav-link" href="about.html">About</a>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="row">
+			<h1>English form sample of Voice Activated </h1>
+		</div>
+		<div class="row">
+			<div class="col">
+				<button type="button" class="btn btn-primary" id="activation-start">
+				  Start
+				</button>
+				<button type="button" class="btn btn-primary" id="activation-stop" >
+				  Stop
+				</button>
+				<span id="activation-report">
+				   By default the page is not activated
+				</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-5">
+				<h2> Developper perspective </h2>
+				The purpose of this sample is to activate inputs putting all rules just after the &lt;body&gt; in a special &lt;vai&gt; element.
+			</div>
+			<div class="col-lg-6">
+				<h2> User perspective </h2>
+				In this page, you have to talk in english.
+				Infinitive verbs or second person.
+				The red dot in the title means recognizer is processing,
+				after a silence it stops automatically.
+			</div>
+		</div>
+		<br/>
+		<div class="row">
+			<div class="col-lg-5">
+				On the right of this page it looks like a register page, you can say :
+				<ul>
+					<li> fill title &lt;&lt;something&gt;&gt; </li>
+					<li> fill name &lt;&lt;name(s)&gt;&gt; </li>
+					<li> fill one &lt;&lt;name(s)&gt;&gt;  <br/>-- if alternate 1 is visible and enabled the input field is filed </li>
+					<li> fill second &lt;&lt;name(s)&gt;&gt;  <br/>-- if alternate 2 is visible and enabled the input field is filed </li>
+					<li> fill alternate &lt;&lt;name(s)&gt;&gt; <br/>-- if both are visible and enabled the two fields are filed </li>
+					<li> fill other &lt;&lt;name(s)&gt;&gt; <br/>-- if both are visible and enabled the two fields are filed </li>
+					<li> fill password &lt;&lt;something&gt;&gt; <br/>-- not readable ... but done wrongly</li>
+					<li> check hidden <br/>-- check only </li>
+					<li> uncheck hidden <br/>-- uncheck only </li>
+					<li> activate deactivate <br/>-- check only </li>
+					<li> deactivate deactivate <br/>-- uncheck only </li>
+					<li> change remember <br/>-- toggle</li>
+					<li> connect me </li>
+					<li> stop voice </li>
+				</ul>
+			</div>
+			<form class="col-lg-7">
+				<legend > Form sample  </legend>
+				<div class="mb-3">
+					<label for="inputName" class="form-label">Name</label>
+					<input type="text" class="form-control" id="inputName" aria-describedby="nameHelp" />
+					<div id="nameHelp" class="form-text">Uniq name to use</div>
+				</div>
+				<div class="mb-3">
+					<label for="inputAlt1Name" class="form-label">Name one</label>
+					<input type="text" class="form-control" id="inputAlt1Name" aria-describedby="altHelpA1"/>
+					<div id="altHelpA1" class="form-text">Other first name to use</div>
+					<input type="checkbox" class="form-check-input" id="nameShow"/>
+					<label class="form-check-label" for="nameShow">Hidden</label>
+				</div>
+				<div class="mb-3">
+					<label for="inputAlt2Name" class="form-label">Name second</label>
+					<input type="text" disabled class="form-control" id="inputAlt2Name" aria-describedby="altHelpA2"/>
+					<div id="altHelpA2" class="form-text">Other second name to use</div>
+					<input type="checkbox" checked class="form-check-input" id="altDisable"/>
+					<label class="form-check-label" for="altDisable">Desactivate</label>
+				</div>
+				<div class="mb-3">
+					<label for="inputPassword" class="form-label">Password</label>
+					<input type="password" class="form-control" id="inputPassword" />
+				</div>
+				<div class="mb-3 form-check">
+					<input type="checkbox" class="form-check-input" id="remember" />
+					<label class="form-check-label" for="remember">Remember Me</label>
+				</div>
+				<button type="submit" class="btn btn-primary" id="submit" >
+				submit
+				</button>
+				<div id="submitHelpSuccess" class="form-text text-success" style="display:none">You are now connected</div>
+				<div id="submitHelpError" class="form-text text-danger" style="display:none">Connection failed</div>
+			</form>
+		</div>
+	</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	<script src="../src/voice-activation.js"></script>
+	<script src="1-2.js"></script>
+  </body>
+</html>

@@ -1,4 +1,5 @@
-class VoiceControl {
+const VoiceActivationUIVersion = "1.0";
+class VoiceActivationUI {
 /*
  * control : VoiceActivationControl
  * 
@@ -20,34 +21,68 @@ class VoiceControl {
         this.config(activations);
         this.balloonsState = 0;
         this.debugState = 0;
-        $('#voice-balloons').on ("change", function (event) {
-            if (this.checked) {
-                self.openBalloons();
-            } else {
-                self.closeBalloons();
-            }
-        });
-        $('#voice-debug').on ("change", function (event) {
-            if (this.checked) {
-                self.openDebug();
-            } else {
-                self.closeDebug();
-            }
-        });
-        $('#voice-activated').on ("change", function (event) {
-            if (this.checked) {
-                self.start();
-            } else {
-                self.stop();
-            }
-        });
-    }
+		const balloonsDOM = document.getElementById("activation-balloons");
+		if (balloonsDOM !== null) {
+			balloonsDOM.onclick = function (event) {
+				if (event.target.checked) {
+					self.openBalloons();
+				} else {
+					self.closeBalloons();
+				}
+			};
+		};
+		const debugDOM = document.getElementById("activation-debug");
+		if (debugDOM !== null) {
+			debugDOM.onclick = function (event) {
+				if (event.target.checked) {
+					self.openDebug();
+				} else {
+					self.closeDebug();
+				}
+			};
+		};
+		const startDOM = document.getElementById("activation-start");
+		if (startDOM !== null) {
+			startDOM.onclick = function (event) {
+				self.start();
+			};
+		};
+		const stopDOM = document.getElementById("activation-stop");
+		if (stopDOM !== null) {
+			stopDOM.onclick = function (event) {
+				self.stop();
+			};
+		}
+		const toggleDOM = document.getElementById("activation-toggle");
+		if (toggleDOM !== null) {
+			toggleDOM.onclick = function (event) {
+				if (event.target.checked) {
+					self.start();
+				} else {
+					self.stop();
+				}
+			}
+		}
+		const css = window.document.styleSheets[0];
+		css.insertRule('.vab { padding: 2px; }', css.cssRules.length);
+	}
+
+    /*
+     * private
+     * just correct the toggle if it exist to reflect the down state of the activation
+     */
+    handle_error (topic, text) {
+		const toggleDOM = document.getElementById("activation-toggle");
+		if (toggleDOM !== null) {
+			if (toggleDOM !== null && toggleDOM.checked) toggleDOM.click();
+		}
+	}
 
     /*
      * private
      * display a debug message in a popup somewhere if the popup exists and is opened
      */
-    debug (topic, text) {
+    handle_debug (topic, text) {
         if (this.debugState !== 1) return;
         const debug = document.querySelector('#va-debug');
         if (debug === null) return;
@@ -65,37 +100,66 @@ class VoiceControl {
 
     /*
      * private
+     * display an info message somewhere
+     *  if #activation-report exists use it any way
+	 *  else create an entry activation-popup and animate it for 1s
+     */
+    handle_info (topic, text) {
+		let content = undefined;
+		switch (topic) {
+		case 'phrase' :
+			break;
+		case 'onstart' :
+			content = 'Voice activation is now normally started';
+			break;
+		case 'onend' :
+			content = 'Voice activation is now normally stopped';
+			break;
+		case 'onerror' :
+			content = 'Voice activation stopped abnormally';
+			break;
+		case 'nothing' :
+			content = 'Voice activation do not find any activation';
+			break;
+		case 'many' :
+			content = 'Voice activation find too many activations';
+			break;
+		}
+		if (content === undefined) return;
+		// if page provide a report div use it
+		let report = document.getElementById("activation-report");
+		if (report !== null) {
+			report.innerText = content;
+			return;
+		}
+		// lookup for a previously created toast
+		let info = document.getElementById("activation-toast");
+		if (info === null) {
+			// create one tiny bootstrap toast
+			var toast  = '<div id="activation-toast" class="toast position-absolute top-0 start-50 translate-middle-x" role="alert" data-bs-delay="1500" >';
+			    toast += ' <div class="d-flex">';
+			    toast += '	<div class="toast-body"> </div>';
+			    toast += ' </div>';
+			    toast += '</div>';
+			document.querySelector('body').insertAdjacentHTML('beforeend', toast);
+			info = document.getElementById("activation-toast");
+		}
+		info.querySelector('.toast-body').innerText = content;
+		bootstrap.Toast.getOrCreateInstance(info).show();
+	}
+
+    /*
+     * private
      * handler of notifications from VoiceActivationControl
      * 
      * @param initialisation
      */
     handler (level, topic, text) {
-        if (level === 'error') {
-            //topic is either onend or onerror
-            // reflect the fact that the voice system is down
-            $('#voice-activated').prop('checked', false);
-        }
-        if (level === 'debug') this.debug (topic, text);
-        if (level === 'info') {
-            switch (topic) {
-            case 'onstart' :
-                $('#popup-info').text('Voice activation is now normally started');
-                break;
-            case 'onend' :
-                $('#popup-info').text('Voice activation is now normally stopped');
-                break;
-            case 'onerror' :
-                $('#popup-info').text('Voice activation stopped abnormally');
-                break;
-            case 'nothing' :
-                $('#popup-info').text('Voice activation do not find any activation');
-                break;
-            case 'many' :
-                $('#popup-info').text('Voice activation find many activations');
-                break;
-            }
-            $('#popup-info').dialog('open');
-        }
+        switch(level) {
+		case 'error' : this.handle_error (topic, text); break;
+        case 'debug' : this.handle_debug (topic, text); break;
+        case 'info' : this.handle_info (topic, text); break;
+		}
     }
         
     /*
@@ -224,28 +288,54 @@ class VoiceControl {
      */
     computeBalloons () {
         for (let activation of this.control.activations) {
-            let balloon = this.findBestBalloonElement (activation.dom);
-//            activation.balloon.setAttribute ("data-balloon-length", "medium");
-            let position = this.balloonPosition(this.elementPosition(activation.dom));
-            if (position === "") position = "up";
-            balloon.setAttribute ("data-balloon-pos", position);
-            let content = "";
-            content += "\""+activation.verbs.join('|')+" "+activation.subjects.join('|')+" "+(activation.complements !== undefined ? activation.complements.join('|') : "")+"\"";
-            content += (activation.action !== undefined ? activation.action : "click");
-            if (activation.property !== undefined && activation.value !== undefined) {
-                content += " "+activation.value+"=>"+activation.property;
-            }
-            balloon.setAttribute ("aria-label", content);
-            balloon.insertAdjacentHTML ('beforeend', '<i class="va fas fa-microphone"></i>');
-        }
-    }
-
+			let balloon = this.findBestBalloonElement (activation.dom);
+			balloon.setAttribute ("data-balloon-break", "");
+			let position = this.balloonPosition(this.elementPosition(activation.dom));
+			if (position === "") position = "up";
+			balloon.setAttribute ("data-balloon-pos", position);
+			let content = balloon.getAttribute ("aria-label");
+			if (content === null) content="";
+			else content+="\n";
+			content += "'";
+			content += activation.verbs[0];
+			if (activation.verbs.length > 1) {
+				content += "..";
+			}
+			content += " ";
+			content += activation.subjects[0];
+			if (activation.subjects.length > 1) {
+				content += "..";
+			}
+			content += " ";
+			switch(activation.complements.length) {
+			case 0: break;
+			case 1: content += activation.complements[0]; break;
+			default: content += activation.complements[0]; content += "|..."; break;
+			}
+			content += "'";
+			content += " (";
+			content += (activation.action !== undefined ? activation.action : "click");
+			if (activation.property !== undefined) {
+				content += " ";
+				content += activation.property;
+			}
+			if (activation.value !== undefined) {
+				content += "="+activation.value;
+			}
+			content += ")";
+			balloon.setAttribute ("aria-label", content);
+			if (balloon.querySelector('.vab') === null) {
+				balloon.insertAdjacentHTML ('beforeend', '<i class="vab fas fa-microphone"></i>');
+			}
+		}
+	}
+	
     /*
      * private
      * show microphone
      */
     showBalloons () {
-        const elements = document.querySelectorAll("i.va");
+        const elements = document.querySelectorAll("i.vab");
         for (const element of elements) {
             element.style.display = "inline";
         }
@@ -256,7 +346,7 @@ class VoiceControl {
      * hide microphone
      */
     hideBalloons () {
-        const elements = document.querySelectorAll("i.va");
+        const elements = document.querySelectorAll("i.vab");
         for (const element of elements) {
             element.style.display = "none";
         }
@@ -327,43 +417,43 @@ class VoiceControl {
      * build a debug tooltip about voice activations
      */
     buildDebug () {
-        let debug = '';
-        debug += '<div id="va-debug">'
-        debug += '   <div> Error : <span class="va-debug-error"> </span> </div>'
-        debug += '   <div> Phrase : <span class="va-debug-phrase"> </span> </div>'
-        debug += '   <div> Verb : <span class="va-debug-verb"> </span> </div>'
-        debug += '   <div> Subject : <span class="va-debug-subject"> </span> </div>'
-        debug += '   <div> Complement : <span class="va-debug-complement"> </span> </div>'
-        debug += '   <div> Selected # : <span class="va-debug-selected"> </span> </div>'
-        debug += '   <div> Filtered # : <span class="va-debug-filtered"> </span> </div>'
-        debug += '   <div> Action : <span class="va-debug-action"> </span> </div>'
-        debug += '</div>';
-        document.querySelector('body').insertAdjacentHTML('beforeend', debug);
-        let dom = document.querySelector('#va-debug');
-        dom.style['z-index']=200;
-        dom.style.position='fixed';
-        dom.style.width='300px';
-        dom.style.background='#c0c0c0';
-        dom.style.padding='10px';
+        let content = '';
+        content += '<div id="va-debug">'
+        content += '   <div> Error : <span class="va-debug-error"> </span> </div>'
+        content += '   <div> Phrase : <span class="va-debug-phrase"> </span> </div>'
+        content += '   <div> Verb : <span class="va-debug-verb"> </span> </div>'
+        content += '   <div> Subject : <span class="va-debug-subject"> </span> </div>'
+        content += '   <div> Complement : <span class="va-debug-complement"> </span> </div>'
+        content += '   <div> Selected # : <span class="va-debug-selected"> </span> </div>'
+        content += '   <div> Filtered # : <span class="va-debug-filtered"> </span> </div>'
+        content += '   <div> Action : <span class="va-debug-action"> </span> </div>'
+        content += '</div>';
+        document.querySelector('body').insertAdjacentHTML('beforeend', content);
+        let debug = document.querySelector('#va-debug');
+        debug.style['z-index']=200;
+        debug.style.position='fixed';
+        debug.style.width='300px';
+        debug.style.background='#c0c0c0';
+        debug.style.padding='10px';
         try {
             if (this.horizontal !== undefined) {
                 const position = this.horizontal.split(':');
-                dom.style[position[0]] = position[1];
+                debug.style[position[0]] = position[1];
             } else {
-                dom.style.right='0px';
+                debug.style.right='0px';
             }
         } catch (error) {
-            dom.style.right='0px';
+            debug.style.right='0px';
         }
         try {
             if (this.vertical !== undefined) {
                 const position = this.vertical.split(':');
-                dom.style[position[0]] = position[1];
+                debug.style[position[0]] = position[1];
             } else {
-                dom.style.top='450px';
+                debug.style.top='450px';
             }
         } catch (error) {
-            dom.style.top='450px';
+            debug.style.top='450px';
         }
     }
 

@@ -2,7 +2,7 @@
  * set of classes to deal with a full activation of a HTML page
  * 
  */
-
+const VoiceActivationControlVersion = "1.0";
 /*
  * 
  * uniq Voice configuration object for a html page
@@ -43,7 +43,7 @@ class VoiceConfiguration {
 class VoiceActivation {
 
     /**
-     * @param dom {HTML} mandatory : the DOM object to use
+     * @param dom {HTML} mandatory : the DOM objects to use
      * @param verb {string []} mandatory : spelled by user (sementic action to do)
      * @param subject {string []} mandatory : spelled by user (sementic noun for the target)
      * @param complement {string [] | null} optional : spelled by user give additional information
@@ -54,8 +54,12 @@ class VoiceActivation {
      */
     
     constructor(dom, verbs, subjects, complements, allways, action, property, value) {
-        this.dom = dom;
-        this.verbs = verbs;
+		if (dom !== undefined && dom !== null) {
+			this.dom = dom;
+		} else {
+			this.dom = undefined;
+        }
+		this.verbs = verbs;
         this.subjects = subjects;
         this.complements = complements;
         this.allways = allways;
@@ -93,7 +97,7 @@ class VoiceActivationControl {
      * @return {VoiceConfiguration} : a configuration object initialized using HTML
      */
     extractConfigurationFromHtml() {
-        const element = document.getElementById("vac");
+        const element = document.getElementById("vai");
         if (element === null) return undefined;
         const loop = element.dataset.vaLoop;
         const derived = element.dataset.vaDerived;
@@ -103,7 +107,7 @@ class VoiceActivationControl {
         const nothing = element.dataset.vaNothing;
         const many = element.dataset.vaMany;
         const configuration = new VoiceConfiguration (
-                loop, derived, synonym, lang, i18n, nothing, many
+                loop === 'true', derived === 'true', synonym === 'true', lang, i18n, nothing, many
             );
         return configuration;
     }
@@ -113,26 +117,29 @@ class VoiceActivationControl {
      */
     registerConjugations (conjugations) {
         this.conjugations = {};
-        this.conjugations['actualiser'] = 'actualise';
-        this.conjugations['afficher'] = 'affiche';
-        this.conjugations['cacher'] = 'cache';
-        this.conjugations['chercher'] = 'cherche';
-        this.conjugations['cocher'] = 'coche';
-        this.conjugations['colorier'] = 'colore';
-        this.conjugations['connecter'] = 'connecte';
-        this.conjugations['créer'] = 'crée';
-        this.conjugations['décocher'] = 'décoche';
-        this.conjugations['démarrer'] = 'démarre';
-        this.conjugations['exporter'] = 'exporte';
+        this.conjugations['actualiser'] = 'actualise, actualisez';
+        this.conjugations['afficher'] = 'affiche,affichez';
+        this.conjugations['aller'] = 'va,allez';
+        this.conjugations['cacher'] = 'cache,cachez';
+        this.conjugations['chercher'] = 'cherche,cherchez';
+        this.conjugations['cocher'] = 'coche,cochez';
+        this.conjugations['colorier'] = 'colorie,coloriez';
+        this.conjugations['connecter'] = 'connecte, connectez';
+        this.conjugations['créer'] = 'crée,créez';
+        this.conjugations['décocher'] = 'décoche,décochez';
+        this.conjugations['démarrer'] = 'démarre,démarrez';
+        this.conjugations['éditer'] = 'édite,éditez';
+        this.conjugations['exporter'] = 'exporte,exportez';
         this.conjugations['faire'] = 'fait, fais';
-        this.conjugations['fermer'] = 'ferme';
-        this.conjugations['importer'] = 'importe';
-        this.conjugations['ouvrir'] = 'ouvre';
-        this.conjugations['quitter'] = 'quitte';
+        this.conjugations['fermer'] = 'ferme, fermez';
+        this.conjugations['importer'] = 'importe, importez';
+        this.conjugations['ouvrir'] = 'ouvre, ouvrez';
+        this.conjugations['quitter'] = 'quitte,quittez';
         this.conjugations['remplir'] = 'rempli';
-        this.conjugations['sélectionner'] = 'sélectionne';
+        this.conjugations['sélectionner'] = 'sélectionne,sélectionnez';
         this.conjugations['soumettre'] = 'soumet';
-        this.conjugations['stopper'] = 'stoppe';
+        this.conjugations['supprimer'] = 'supprime,supprimez';
+        this.conjugations['stopper'] = 'stoppe, stoppez';
         if (conjugations === undefined) return;
     }
 
@@ -146,6 +153,10 @@ class VoiceActivationControl {
         this.declinations['sign out'] = 'sign-out';
         this.declinations['mot de passe'] = 'password';
         this.declinations['nom'] = 'non';
+        this.declinations['un'] = 'a,à';
+        this.declinations['deux'] = 'de';
+        this.declinations['voix'] = 'voit, voie';
+        this.declinations['champ'] = 'chant';
         if (declinations === undefined) return;
     }
     
@@ -171,61 +182,58 @@ class VoiceActivationControl {
     registerActions (actions) {
         this.actions = {};
         this.actions['click'] = function (activation, complement, bestComplementFunction) {
-            if (activation.dom === undefined) return;
-            if (activation.dom === null) return;
-            activation.dom.click();
+			activation.dom.click();
         };
         this.actions['check'] = function (activation, complement, bestComplementFunction) {
-            if (activation.dom === undefined) return;
-            if (activation.dom === null) return;
-            if (activation.dom.type !== "checkbox" && activation.dom.type !== "radio") return;
-            activation.dom.checked = true;
+			if (activation.dom.type !== "checkbox" && activation.dom.type !== "radio") return;
+			if (activation.dom.checked) return;
+			// fire the click function on radio and checkbox if only not yet checked
+			activation.dom.click();
         };
         this.actions['uncheck'] = function (activation, complement, bestComplementFunction) {
-            if (activation.dom === undefined) return;
-            if (activation.dom === null) return;
-            if (activation.dom.type !== "checkbox" && activation.dom.type !== "radio") return;
-            activation.dom.checked = false;
+			if (activation.dom.type !== "checkbox" && activation.dom.type !== "radio") return;
+			if (! activation.dom.checked) return;
+			// fire the click function on radio and checkbox only if checked
+			activation.dom.click();
         };
         this.actions['toggle'] = function (activation, complement, bestComplementFunction) {
-            if (activation.dom === undefined) return;
-            if (activation.dom === null) return;
-            if (activation.dom.type !== "checkbox" && activation.dom.type !== "radio") return;
-            activation.dom.checked = ! activation.dom.checked;
+			if (activation.dom.type !== "checkbox" && activation.dom.type !== "radio") return;
+			// fire the click function on radio and checkbox so toggle the state
+			activation.dom.click();
         };
         this.actions['select'] = function (activation, complement, bestComplementFunction) {
-            if (activation.dom === undefined) return;
-            if (activation.dom === null) return;
             if (activation.property === undefined) return;
-            if (activation.property === 'value' && activation.value !== undefined && activation.dom.nodeName === "SELECT") {
-                activation.dom.value = activation.value;
-            }
+			if (activation.property === 'value' && activation.value !== undefined && activation.dom.nodeName === "SELECT") {
+				// for a select change its value according to the option value
+				// computed during creation to avoid a link to the option
+				activation.dom.value = activation.value;
+			}
         };
         this.actions['style'] = function (activation, complement, bestComplementFunction) {
-            if (activation.dom === undefined) return;
-            if (activation.dom === null) return;
             if (activation.property === undefined) return;
-            let value = bestComplementFunction (activation, complement);
-            if (value !== undefined && value.length !== 0) {
-                value = value.join('');
-            }
-            if (value !== undefined) {
-                // hope property is a regular style entry value
-                // hope value is a regular value for the chosen style
-                activation.dom.style[activation.property] = value;
-            }
+			let value = bestComplementFunction (activation, complement);
+			if (value !== undefined && value.length !== 0) {
+				value = value.join('');
+			}
+			if (value !== undefined) {
+				// hope property is a regular style entry value
+				// hope value is a regular value for the chosen style
+				activation.dom.style[activation.property] = value;
+			}
         };
         this.actions['fill'] = function (activation, complement, bestComplementFunction) {
-            if (activation.dom === undefined) return;
-            if (activation.dom === null) return;
-            if (activation.dom.type !== "text" && activation.dom.type !== "password") return;
-            let value = bestComplementFunction (activation, complement);
-            if (value !== undefined && value.length !== 0) {
-                value = value.join(' ');
-            }
-            if (value !== undefined) {
-                activation.dom.value = value;
-            }
+			let value = bestComplementFunction (activation, complement);
+			if (value !== undefined && value.length !== 0) {
+				value = value.join(' ');
+			}
+			if (value === undefined) return;
+			if (activation.dom.nodeName === "INPUT") {
+				// <input> element should have a value property
+				activation.dom.value = value;
+			} else {
+				// <...> element change the text may be it is a good idea
+				activation.dom.innerText = value;
+			}
         };
         if (actions === undefined) return;
     }
@@ -244,7 +252,7 @@ class VoiceActivationControl {
      * }
      */
     initialisation (initialisation) {
-        this.configuration = new VoiceConfiguration (true, true, true, "fr-FR", "", 'error', 'error');
+        this.configuration = new VoiceConfiguration (false, false, false, "en-US", "", 'error', 'error');
         if (initialisation !== undefined && initialisation.configuration !== undefined) {
             this.configuration = { ...this.configuration, ...initialisation.configuration };
         }
@@ -362,16 +370,19 @@ class VoiceActivationControl {
                 derived, synonym, i18n,
                 allways, action, property, value
             ) {
-        // find the real dom element for the rule
-        let dom = element;
+        // find the real dom element(s) for the rule
+		// and put it in an array of dom objects
+        let doms = [];
         if (target !== undefined) {
             // special querySelector to touch immediat parent
             if (target === '..') {
-                dom = element.parentElement;
+                doms.push(element.parentElement);
             } else {
-                dom = document.querySelector(target);
+                doms = Array.from(document.querySelectorAll(target));
             }
-        }
+        } else {
+			doms.push(element);
+		}
         if (value !== undefined) {
             // special value to use the value attribute of the dom element
             if (value === './value') value = element.value;
@@ -396,13 +407,22 @@ class VoiceActivationControl {
         }
 
         // and now feed the activations registry with all gathered words
-        const activation = new VoiceActivation (
-                dom,
-                Array.from(verbs), Array.from(subjects), Array.from(complements),
-                allways, action, property, value
-        );
-        this.activations.push(activation);
-        
+		// one entry per doms entry if doms is like an array unwrap them
+		// remove undefined and null entries as useless
+		verbs = Array.from(verbs);
+		subjects = Array.from(subjects);
+		complements = Array.from(complements);
+		for (const dom of doms) {
+			if (dom === undefined) continue;
+			if (dom === null) continue;
+			const activation = new VoiceActivation (
+					dom,
+					verbs, subjects, complements,
+					allways, action, property, value
+			);
+			this.activations.push(activation);
+		}
+
         // if translation allows add translations
         // not yet implemented as we should create a brand new VoiceActivation
         // for each langage declared
@@ -542,13 +562,13 @@ class VoiceActivationControl {
      */
     isElementVisible(el) {
         var rect = el.getBoundingClientRect();
-
-        return (
-            rect.top > 0 &&
-            rect.left > 0 &&
-            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && 
-            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-        );
+		if (rect.width === 0) return false;
+		if (rect.height === 0) return false;
+		if (rect.top < 0) return false;
+		if (rect.left < 0) return false;
+		if (rect.bottom > (window.innerHeight || document.documentElement.clientHeight)) return false;
+		if (rect.right > (window.innerWidth || document.documentElement.clientWidth)) return false;
+		return true;
     }
 
     /*
@@ -556,15 +576,27 @@ class VoiceActivationControl {
      * according to the rules filter to remove hidden sentences
      * @returns VoiceSentence []
      */
-    filterHiddenActivations (activations) {
+    filterForbiddenActivations (activations) {
         let self = this;
         let filtered = activations.filter(function (activation) {
             // if allways is true the activation is ever true
             if (activation.allways !== undefined && activation.allways) {
                 return true;
-            } else {
-                return self.isElementVisible (activation.dom);
             }
+			// no dom ... may be activation is not usable
+			if (activation.dom === undefined) {
+				return false;
+			}
+            // if hidden the activation is ever false
+			if ( ! self.isElementVisible (activation.dom)) {
+				return false;
+            }
+            // if disabled the activation is ever false
+			if (activation.dom.disabled) {
+				return false;
+            }
+			// seems we can use activation
+			return true;
         });
         return filtered;
     }
@@ -773,6 +805,7 @@ class VoiceActivationControl {
             // 0..resultIndex-1 are the previous event in case of contiguous
             const speech = event.results[event.resultIndex][0];
             const result = speech.transcript;
+            this.notify ('info', 'phrase', result);
             this.notify ('debug', 'phrase', result);
             const words = result.toLowerCase().trim().split(" ");
             let verb = this.findVerb (words);
@@ -795,7 +828,7 @@ class VoiceActivationControl {
             }
             let selected = this.selectActivations (verb, subject, complement);
             this.notify ('debug', 'selected', selected.length);
-            let filtered = this.filterHiddenActivations (selected);
+            let filtered = this.filterForbiddenActivations (selected);
             this.notify ('debug', 'filtered', filtered.length);
             this.decide (filtered, verb, subject, complement);
         }
