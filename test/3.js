@@ -3,14 +3,6 @@ document.addEventListener("DOMContentLoaded", function() {
 	// simple initialisation function of the voice activation
 	function voiceActivation () {
 		let va = new VoiceActivationUI(undefined, undefined);
-		va.initialisation ();
-		va.config ();
-		document.getElementById("activation-start").onclick = function (event) {
-		   va.start();
-		};
-		document.getElementById("activation-stop").onclick = function (event) {
-		   va.stop();
-		};
 	}
 
 	// simple initialisation the page like in real pages

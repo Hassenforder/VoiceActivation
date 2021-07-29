@@ -2,7 +2,7 @@
  * set of classes to deal with a full activation of a HTML page
  * 
  */
-const VoiceActivationControlVersion = "1.0";
+const VoiceActivationControlVersion = "1.1";
 /*
  * 
  * uniq Voice configuration object for a html page
@@ -432,9 +432,16 @@ class VoiceActivationControl {
      * private
      * extract all voice activation by scanning html elements
      */
-    extractActivationsFromHtml() {
-        const elements = document.querySelectorAll("[data-va-verbs][data-va-subjects]");
+    extractActivationsFromHtml(selector) {
+    	let root = document;
+    	if (selector !== undefined) {
+	   root = document.querySelector (selector);
+    	}
+    	if (root === null) return;
+        const elements = root.querySelectorAll("[data-va-verbs][data-va-subjects]");
         for (const element of elements) {
+            const noRefresh = element.dataset.vaNoRefresh;
+	    if (selector !== undefined && noRefresh !== undefined && noRefresh === "true") continue; 
             const target = element.dataset.vaTarget;
             const verbList = element.dataset.vaVerbs;
             const subjectList = element.dataset.vaSubjects;
@@ -455,6 +462,21 @@ class VoiceActivationControl {
         }
     }
 
+    /*
+     * private
+     * remove from activations all element no more available in dom
+     */
+    removeGoneElements() {
+	let toRemove = [];
+	for (let index=0; index < this.activations.length; ++index) {
+           if (! document.body.contains(this.activations[index].dom)) toRemove.push (index);
+	}
+	toRemove.sort(function compare(a, b) { return b - a; } );
+	for (const index of toRemove) {
+	   this.activations.splice(index, 1);
+	}
+    }
+    
     /*
      * private
      * extract all uniq verbs in voice activation registry
@@ -510,6 +532,18 @@ class VoiceActivationControl {
     }
     
     /*
+     * private
+     * config the recognition 
+     */
+    configRecognition () {
+        const SpeechGrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList;
+        let speechWordList = new SpeechGrammarList();
+        speechWordList.addFromString(this.buildGrammar (), 1);
+        this.recognition.grammars = speechWordList;
+        this.recognition.lang = this.configuration.lang;
+    }
+    
+    /*
      * configuration of the voice activation scanning rules in html
      */
     config (activations) {
@@ -517,12 +551,22 @@ class VoiceActivationControl {
         if (activations !== undefined) {
             this.activations = activations;
         }
-        this.extractActivationsFromHtml();
-        const SpeechGrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList;
-        let speechWordList = new SpeechGrammarList();
-        speechWordList.addFromString(this.buildGrammar (), 1);
-        this.recognition.grammars = speechWordList;
-        this.recognition.lang = this.configuration.lang;
+        this.extractActivationsFromHtml(undefined);
+        this.configRecognition ();
+    }
+
+    /*
+     * refresh the voice activation rules
+     * selector is a selector of the root of the part to refresh
+     * activations is an array of activation rules
+     */
+    refresh (selector, activations) {
+    	this.removeGoneElements ();
+        this.extractActivationsFromHtml(selector);
+        if (activations !== undefined) {
+	   this.activations = this.activations.concat(activations);
+        }
+        this.configRecognition ();
     }
 
     /*
@@ -562,13 +606,13 @@ class VoiceActivationControl {
      */
     isElementVisible(el) {
         var rect = el.getBoundingClientRect();
-		if (rect.width === 0) return false;
-		if (rect.height === 0) return false;
-		if (rect.top < 0) return false;
-		if (rect.left < 0) return false;
-		if (rect.bottom > (window.innerHeight || document.documentElement.clientHeight)) return false;
-		if (rect.right > (window.innerWidth || document.documentElement.clientWidth)) return false;
-		return true;
+        if (rect.width === 0) return false;
+        if (rect.height === 0) return false;
+        if (rect.top < 0) return false;
+        if (rect.left < 0) return false;
+        if (rect.bottom > (window.innerHeight || document.documentElement.clientHeight)) return false;
+        if (rect.right > (window.innerWidth || document.documentElement.clientWidth)) return false;
+        return true;
     }
 
     /*
@@ -583,10 +627,10 @@ class VoiceActivationControl {
             if (activation.allways !== undefined && activation.allways) {
                 return true;
             }
-			// no dom ... may be activation is not usable
-			if (activation.dom === undefined) {
-				return false;
-			}
+            // no dom ... may be activation is not usable
+            if (activation.dom === undefined) {
+                    return false;
+            }
             // if hidden the activation is ever false
 			if ( ! self.isElementVisible (activation.dom)) {
 				return false;
@@ -595,8 +639,8 @@ class VoiceActivationControl {
 			if (activation.dom.disabled) {
 				return false;
             }
-			// seems we can use activation
-			return true;
+            // seems we can use activation
+            return true;
         });
         return filtered;
     }

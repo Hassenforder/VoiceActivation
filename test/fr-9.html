@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="../src/balloon.min.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.min.css" rel="stylesheet"  crossorigin="anonymous">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/solid.min.css" rel="stylesheet" crossorigin="anonymous">
@@ -16,8 +15,52 @@
 		data-va-derived="true" data-va-synonym="true"
 		data-va-i18n="false" data-va-lang="fr-FR"
 		data-va-nothing="nothing" data-va-many="apply" >
-			<va data-va-verbs="stoppe" data-va-subjects="voix" data-va-target="#activation-stop"></va>
-			<va data-va-verbs="remplir" data-va-subjects="titre" data-va-action="fill" data-va-target="#legend"></va>
+			<va data-va-verbs="stoppe" data-va-subjects="voix" data-va-target="#activation-stop" ></va>
+			<va data-va-verbs="remplir" data-va-subjects="titre" data-va-action="fill" data-va-target="#legend" ></va>
+
+			<va data-va-verbs="remplir" data-va-subjects="recherche" data-va-action="fill" data-va-target="#grid1-header .search-field" ></va>
+			<va data-va-verbs="aller" data-va-subjects="début" data-va-target="#grid1-footer a[data-page='first']" ></va>
+			<va data-va-verbs="aller" data-va-subjects="avant, précédent" data-va-target="#grid1-footer a[data-page='prev']" ></va>
+			<va data-va-verbs="aller" data-va-subjects="1, premier, première" data-va-target="#grid1-footer a[data-page='1']" ></va>
+			<va data-va-verbs="aller" data-va-subjects="2,deuxième" data-va-target="#grid1-footer a[data-page='2']" ></va>
+			<va data-va-verbs="aller" data-va-subjects="3,troisième" data-va-target="#grid1-footer a[data-page='3']" ></va>
+			<va data-va-verbs="aller" data-va-subjects="4,quatrième" data-va-target="#grid1-footer a[data-page='4']" ></va>
+			<va data-va-verbs="aller" data-va-subjects="5,cinquième" data-va-target="#grid1-footer a[data-page='5']" ></va>
+			<va data-va-verbs="aller" data-va-subjects="après, suivant" data-va-target="#grid1-footer a[data-page='next']" ></va>
+			<va data-va-verbs="aller" data-va-subjects="dernier, dernière, fin" data-va-target="#grid1-footer a[data-page='last']" ></va>
+			<va data-va-verbs="trier, crier" data-va-subjects="id, idée, 1, un" data-va-target="#grid1 thead th:nth-child(1) a" ></va>
+			<va data-va-verbs="trier, crier" data-va-subjects="sender, sanda, 2, deux" data-va-target="#grid1 thead th:nth-child(2) a" ></va>
+			<va data-va-verbs="trier, crier" data-va-subjects="3,received, receive" data-va-target="#grid1 thead th:nth-child(3) a" ></va>
+			<va data-va-verbs="éditer" data-va-subjects="1, un, premier, première" data-va-target="#grid1 tbody tr:nth-child(1) button.command-edit" ></va>
+			<va data-va-verbs="supprimer" data-va-subjects="1, un, premier, première" data-va-target="#grid1 tbody tr:nth-child(1) button.command-delete" ></va>
+			<va data-va-verbs="éditer" data-va-subjects="2, deux" data-va-target="#grid1 tbody tr:nth-child(2) button.command-edit" ></va>
+			<va data-va-verbs="supprimer" data-va-subjects="2, deux" data-va-target="#grid1 tbody tr:nth-child(2) button.command-delete" ></va>
+			<va data-va-verbs="éditer" data-va-subjects="3, trois" data-va-target="#grid1 tbody tr:nth-child(3) button.command-edit" ></va>
+			<va data-va-verbs="supprimer" data-va-subjects="3, trois" data-va-target="#grid1 tbody tr:nth-child(3) button.command-delete" ></va>
+			<va data-va-verbs="éditer" data-va-subjects="4, quatre" data-va-target="#grid1 tbody tr:nth-child(4) button.command-edit" ></va>
+			<va data-va-verbs="supprimer" data-va-subjects="4, quatre" data-va-target="#grid1 tbody tr:nth-child(4) button.command-delete" ></va>
+
+			<va data-va-verbs="remplir" data-va-subjects="recherche" data-va-action="fill" data-va-target="#grid2-header .search-field" ></va>
+			<va data-va-verbs="aller" data-va-subjects="début" data-va-target="#grid2-footer a[data-page='first']" ></va>
+			<va data-va-verbs="aller" data-va-subjects="avant, précédent" data-va-target="#grid2-footer a[data-page='prev']" ></va>
+			<va data-va-verbs="aller" data-va-subjects="1, premier, première" data-va-target="#grid2-footer a[data-page='1']" ></va>
+			<va data-va-verbs="aller" data-va-subjects="2,deuxième" data-va-target="#grid2-footer a[data-page='2']" ></va>
+			<va data-va-verbs="aller" data-va-subjects="3,troisième" data-va-target="#grid2-footer a[data-page='3']" ></va>
+			<va data-va-verbs="aller" data-va-subjects="4,quatrième" data-va-target="#grid2-footer a[data-page='4']" ></va>
+			<va data-va-verbs="aller" data-va-subjects="5,cinquième" data-va-target="#grid2-footer a[data-page='5']" ></va>
+			<va data-va-verbs="aller" data-va-subjects="après, suivant" data-va-target="#grid2-footer a[data-page='next']" ></va>
+			<va data-va-verbs="aller" data-va-subjects="dernier, dernière, fin" data-va-target="#grid2-footer a[data-page='last']" ></va>
+			<va data-va-verbs="trier, crier" data-va-subjects="id, idée, 1, un" data-va-target="#grid2 thead th:nth-child(1) a" ></va>
+			<va data-va-verbs="trier, crier" data-va-subjects="sender, sanda, 2, deux" data-va-target="#grid2 thead th:nth-child(2) a" ></va>
+			<va data-va-verbs="trier, crier" data-va-subjects="3,received, receive" data-va-target="#grid2 thead th:nth-child(3) a" ></va>
+			<va data-va-verbs="éditer" data-va-subjects="1, un, premier, première" data-va-target="#grid2 tbody tr:nth-child(1) button.command-edit" ></va>
+			<va data-va-verbs="supprimer" data-va-subjects="1, un, premier, première" data-va-target="#grid2 tbody tr:nth-child(1) button.command-delete" ></va>
+			<va data-va-verbs="éditer" data-va-subjects="2, deux" data-va-target="#grid2 tbody tr:nth-child(2) button.command-edit" ></va>
+			<va data-va-verbs="supprimer" data-va-subjects="2, deux" data-va-target="#grid2 tbody tr:nth-child(2) button.command-delete" ></va>
+			<va data-va-verbs="éditer" data-va-subjects="3, trois" data-va-target="#grid2 tbody tr:nth-child(3) button.command-edit" ></va>
+			<va data-va-verbs="supprimer" data-va-subjects="3, trois" data-va-target="#grid2 tbody tr:nth-child(3) button.command-delete" ></va>
+			<va data-va-verbs="éditer" data-va-subjects="4, quatre" data-va-target="#grid2 tbody tr:nth-child(4) button.command-edit" ></va>
+			<va data-va-verbs="supprimer" data-va-subjects="4, quatre" data-va-target="#grid2 tbody tr:nth-child(4) button.command-delete" ></va>
     </vai>
 	<nav class="navbar navbar-expand navbar-dark bg-primary">
 		<div class="container-fluid">
@@ -40,8 +83,8 @@
 					<a class="nav-link " href="fr-5.html">Fr-5</a>
 					<a class="nav-link " href="fr-6.html">Fr-6</a>
 					<a class="nav-link " href="fr-7.html">Fr-7</a>
-					<a class="nav-link active" aria-current="page" href="fr-8.html">Fr-8</a>
-					<a class="nav-link " href="fr-9.html">Fr-9</a>
+					<a class="nav-link " href="fr-8.html">Fr-8</a>
+					<a class="nav-link active" aria-current="page" href="fr-9.html">Fr-9</a>
 				</div>
 				<div class="navbar-nav">
 					<a class="nav-link" href="about.html">About</a>
@@ -61,14 +104,6 @@
 				<button type="button" class="btn btn-primary" id="activation-stop">
 				  Stop
 				</button>
-				<label class="form-check-label">
-					<input type="checkbox" class="form-check-input" id="activation-balloons"/>
-					Ballons
-				</label>
-				<label class="form-check-label">
-					<input type="checkbox" class="form-check-input" id="activation-debug"/>
-					Debug
-				</label>
 				<span id="activation-report">
 				   Par défaut la page n'est pas activée
 				</span>
@@ -77,11 +112,10 @@
 		<div class="row">
 			<div class="col-lg-5">
 				<h2> Point de vue développeur </h2>
-				Dans la version 1.1 une nouvelle fonction refresh apporte la possibilité de rafraichir les activations
-				qui seraient devenu obsoletes car un chargement dynamique vient de changer le contenu. <br/>
-				Dans le javascript, quand le dom de la grille est complet, on recharge entièrement les activations
-				à partir du parent de la grille. Il est pratique d'utiliser le parent car la table est entièrement reconstruite
-				par la bibliothèque et on perd les activations et les règles sont juste au-dessus de la définition de la grille.
+				L'objectif de cette page est de montrer quand adaptant le vocabulaire il est possible
+				d'activer plusieurs grilles toujours visibles dans la même page. <br/>
+				Euh pas cool, pour l'instant ... les deux grilles réagissent en même temps.
+
 			</div>
 			<div class="col-lg-6">
 				<h2> Point de vue utilisateur </h2>
@@ -126,39 +160,8 @@
 				</ul>
 			</div>
 			<div class="col-lg-7">
-				<h2 id="legend"> Une magnifique table boot-grid </h2>
-				<ul class="nav nav-tabs" role="tablist">
-				  <li class="nav-item" role="presentation">
-					<button class="nav-link active" data-bs-toggle="tab" data-bs-target="#grid1-tab" type="button" role="tab" aria-controls="grid1" aria-selected="true">Grid 1</button>
-				  </li>
-				  <li class="nav-item" role="presentation">
-					<button class="nav-link" data-bs-toggle="tab" data-bs-target="#grid2-tab" type="button" role="tab" aria-controls="grid2" aria-selected="false">Grid 2</button>
-				  </li>
-				</ul>
-				<div class="tab-content">
-				  <div class="tab-pane fade show active" id="grid1-tab" role="tabpanel" >
-					<va data-va-verbs="remplir" data-va-subjects="recherche" data-va-action="fill" data-va-target="#grid1-header .search-field" ></va>
-					<va data-va-verbs="aller" data-va-subjects="début" data-va-target="#grid1-footer a[data-page='first']" ></va>
-					<va data-va-verbs="aller" data-va-subjects="avant, précédent" data-va-target="#grid1-footer a[data-page='prev']" ></va>
-					<va data-va-verbs="aller" data-va-subjects="1, premier, première" data-va-target="#grid1-footer a[data-page='1']" ></va>
-					<va data-va-verbs="aller" data-va-subjects="2,deuxième" data-va-target="#grid1-footer a[data-page='2']" ></va>
-					<va data-va-verbs="aller" data-va-subjects="3,troisième" data-va-target="#grid1-footer a[data-page='3']" ></va>
-					<va data-va-verbs="aller" data-va-subjects="4,quatrième" data-va-target="#grid1-footer a[data-page='4']" ></va>
-					<va data-va-verbs="aller" data-va-subjects="5,cinquième" data-va-target="#grid1-footer a[data-page='5']" ></va>
-					<va data-va-verbs="aller" data-va-subjects="après, suivant" data-va-target="#grid1-footer a[data-page='next']" ></va>
-					<va data-va-verbs="aller" data-va-subjects="dernier, dernière, fin" data-va-target="#grid1-footer a[data-page='last']" ></va>
-					<va data-va-verbs="trier, crier" data-va-subjects="id, idée, 1, un" data-va-target="#grid1 thead th:nth-child(1) a" ></va>
-					<va data-va-verbs="trier, crier" data-va-subjects="sender, sanda, 2, deux" data-va-target="#grid1 thead th:nth-child(2) a" ></va>
-					<va data-va-verbs="trier, crier" data-va-subjects="3,received, receive" data-va-target="#grid1 thead th:nth-child(3) a" ></va>
-					<va data-va-verbs="éditer" data-va-subjects="1, un, premier, première" data-va-target="#grid1 tbody tr:nth-child(1) button.command-edit" ></va>
-					<va data-va-verbs="supprimer" data-va-subjects="1, un, premier, première" data-va-target="#grid1 tbody tr:nth-child(1) button.command-delete" ></va>
-					<va data-va-verbs="éditer" data-va-subjects="2, deux" data-va-target="#grid1 tbody tr:nth-child(2) button.command-edit" ></va>
-					<va data-va-verbs="supprimer" data-va-subjects="2, deux" data-va-target="#grid1 tbody tr:nth-child(2) button.command-delete" ></va>
-					<va data-va-verbs="éditer" data-va-subjects="3, trois" data-va-target="#grid1 tbody tr:nth-child(3) button.command-edit" ></va>
-					<va data-va-verbs="supprimer" data-va-subjects="3, trois" data-va-target="#grid1 tbody tr:nth-child(3) button.command-delete" ></va>
-					<va data-va-verbs="éditer" data-va-subjects="4, quatre" data-va-target="#grid1 tbody tr:nth-child(4) button.command-edit" ></va>
-					<va data-va-verbs="supprimer" data-va-subjects="4, quatre" data-va-target="#grid1 tbody tr:nth-child(4) button.command-delete" ></va>
-					<table id="grid1" class="table table-condensed table-hover table-striped">
+				<h2 id="legend"> Deux magnifiques tables boot-grid </h2>
+				<table id="grid1" class="table table-condensed table-hover table-striped">
 						<thead>
 							<tr>
 								<th data-column-id="id" class="text-left" style="">
@@ -265,30 +268,7 @@
 							</tr>
 						</tbody>
 					</table>
-				  </div>
-				  <div class="tab-pane fade" id="grid2-tab" role="tabpanel" >
-					<va data-va-verbs="remplir" data-va-subjects="recherche" data-va-action="fill" data-va-target="#grid2-header .search-field" ></va>
-					<va data-va-verbs="aller" data-va-subjects="début" data-va-target="#grid2-footer a[data-page='first']" ></va>
-					<va data-va-verbs="aller" data-va-subjects="avant, précédent" data-va-target="#grid2-footer a[data-page='prev']" ></va>
-					<va data-va-verbs="aller" data-va-subjects="1, premier, première" data-va-target="#grid2-footer a[data-page='1']" ></va>
-					<va data-va-verbs="aller" data-va-subjects="2,deuxième" data-va-target="#grid2-footer a[data-page='2']" ></va>
-					<va data-va-verbs="aller" data-va-subjects="3,troisième" data-va-target="#grid2-footer a[data-page='3']" ></va>
-					<va data-va-verbs="aller" data-va-subjects="4,quatrième" data-va-target="#grid2-footer a[data-page='4']" ></va>
-					<va data-va-verbs="aller" data-va-subjects="5,cinquième" data-va-target="#grid2-footer a[data-page='5']" ></va>
-					<va data-va-verbs="aller" data-va-subjects="après, suivant" data-va-target="#grid2-footer a[data-page='next']" ></va>
-					<va data-va-verbs="aller" data-va-subjects="dernier, dernière, fin" data-va-target="#grid2-footer a[data-page='last']" ></va>
-					<va data-va-verbs="trier, crier" data-va-subjects="id, idée, 1, un" data-va-target="#grid2 thead th:nth-child(1) a" ></va>
-					<va data-va-verbs="trier, crier" data-va-subjects="sender, sanda, 2, deux" data-va-target="#grid2 thead th:nth-child(2) a" ></va>
-					<va data-va-verbs="trier, crier" data-va-subjects="3,received, receive" data-va-target="#grid2 thead th:nth-child(3) a" ></va>
-					<va data-va-verbs="éditer" data-va-subjects="1, un, premier, première" data-va-target="#grid2 tbody tr:nth-child(1) button.command-edit" ></va>
-					<va data-va-verbs="supprimer" data-va-subjects="1, un, premier, première" data-va-target="#grid2 tbody tr:nth-child(1) button.command-delete" ></va>
-					<va data-va-verbs="éditer" data-va-subjects="2, deux" data-va-target="#grid2 tbody tr:nth-child(2) button.command-edit" ></va>
-					<va data-va-verbs="supprimer" data-va-subjects="2, deux" data-va-target="#grid2 tbody tr:nth-child(2) button.command-delete" ></va>
-					<va data-va-verbs="éditer" data-va-subjects="3, trois" data-va-target="#grid2 tbody tr:nth-child(3) button.command-edit" ></va>
-					<va data-va-verbs="supprimer" data-va-subjects="3, trois" data-va-target="#grid2 tbody tr:nth-child(3) button.command-delete" ></va>
-					<va data-va-verbs="éditer" data-va-subjects="4, quatre" data-va-target="#grid2 tbody tr:nth-child(4) button.command-edit" ></va>
-					<va data-va-verbs="supprimer" data-va-subjects="4, quatre" data-va-target="#grid2 tbody tr:nth-child(4) button.command-delete" ></va>
-					<table id="grid2" class="table table-condensed table-hover table-striped">
+				<table id="grid2" class="table table-condensed table-hover table-striped">
 						<thead>
 							<tr>
 								<th data-column-id="id" class="text-left" style="">
@@ -390,8 +370,6 @@
 							</tr>
 						</tbody>
 					</table>
-				  </div>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -402,7 +380,6 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.min.js" crossorigin="anonymous"></script>
 	<script src="jquery.bootgrid.fa+.js"></script>
 	<script src="../src/voice-activation.js"></script>
-	<script src="../src/voice-activation-ui.js"></script>
-	<script src="8.js"></script>
+	<script src="9.js"></script>
   </body>
 </html>

@@ -1,4 +1,4 @@
-const VoiceActivationUIVersion = "1.0";
+const VoiceActivationUIVersion = "1.1";
 class VoiceActivationUI {
 /*
  * control : VoiceActivationControl
@@ -21,62 +21,62 @@ class VoiceActivationUI {
         this.config(activations);
         this.balloonsState = 0;
         this.debugState = 0;
-		const balloonsDOM = document.getElementById("activation-balloons");
-		if (balloonsDOM !== null) {
-			balloonsDOM.onclick = function (event) {
-				if (event.target.checked) {
-					self.openBalloons();
-				} else {
-					self.closeBalloons();
-				}
-			};
-		};
-		const debugDOM = document.getElementById("activation-debug");
-		if (debugDOM !== null) {
-			debugDOM.onclick = function (event) {
-				if (event.target.checked) {
-					self.openDebug();
-				} else {
-					self.closeDebug();
-				}
-			};
-		};
-		const startDOM = document.getElementById("activation-start");
-		if (startDOM !== null) {
-			startDOM.onclick = function (event) {
-				self.start();
-			};
-		};
-		const stopDOM = document.getElementById("activation-stop");
-		if (stopDOM !== null) {
-			stopDOM.onclick = function (event) {
-				self.stop();
-			};
-		}
-		const toggleDOM = document.getElementById("activation-toggle");
-		if (toggleDOM !== null) {
-			toggleDOM.onclick = function (event) {
-				if (event.target.checked) {
-					self.start();
-				} else {
-					self.stop();
-				}
-			}
-		}
-		const css = window.document.styleSheets[0];
-		css.insertRule('.vab { padding: 2px; }', css.cssRules.length);
-	}
+        const balloonsDOM = document.getElementById("activation-balloons");
+        if (balloonsDOM !== null) {
+                balloonsDOM.onclick = function (event) {
+                        if (event.target.checked) {
+                                self.openBalloons();
+                        } else {
+                                self.closeBalloons();
+                        }
+                };
+        };
+        const debugDOM = document.getElementById("activation-debug");
+        if (debugDOM !== null) {
+                debugDOM.onclick = function (event) {
+                        if (event.target.checked) {
+                                self.openDebug();
+                        } else {
+                                self.closeDebug();
+                        }
+                };
+        };
+        const startDOM = document.getElementById("activation-start");
+        if (startDOM !== null) {
+                startDOM.onclick = function (event) {
+                        self.start();
+                };
+        };
+        const stopDOM = document.getElementById("activation-stop");
+        if (stopDOM !== null) {
+                stopDOM.onclick = function (event) {
+                        self.stop();
+                };
+        }
+        const toggleDOM = document.getElementById("activation-toggle");
+        if (toggleDOM !== null) {
+                toggleDOM.onclick = function (event) {
+                        if (event.target.checked) {
+                                self.start();
+                        } else {
+                                self.stop();
+                        }
+                }
+        }
+        const css = window.document.styleSheets[0];
+        css.insertRule('.vab { padding: 2px; }', css.cssRules.length);
+    }
 
     /*
      * private
      * just correct the toggle if it exist to reflect the down state of the activation
      */
     handle_error (topic, text) {
-		const toggleDOM = document.getElementById("activation-toggle");
-		if (toggleDOM !== null) {
-			if (toggleDOM !== null && toggleDOM.checked) toggleDOM.click();
-		}
-	}
+        const toggleDOM = document.getElementById("activation-toggle");
+        if (toggleDOM !== null) {
+                if (toggleDOM !== null && toggleDOM.checked) toggleDOM.click();
+        }
+    }
 
     /*
      * private
@@ -105,48 +105,48 @@ class VoiceActivationUI {
 	 *  else create an entry activation-popup and animate it for 1s
      */
     handle_info (topic, text) {
-		let content = undefined;
-		switch (topic) {
-		case 'phrase' :
-			break;
-		case 'onstart' :
-			content = 'Voice activation is now normally started';
-			break;
-		case 'onend' :
-			content = 'Voice activation is now normally stopped';
-			break;
-		case 'onerror' :
-			content = 'Voice activation stopped abnormally';
-			break;
-		case 'nothing' :
-			content = 'Voice activation do not find any activation';
-			break;
-		case 'many' :
-			content = 'Voice activation find too many activations';
-			break;
-		}
-		if (content === undefined) return;
-		// if page provide a report div use it
-		let report = document.getElementById("activation-report");
-		if (report !== null) {
-			report.innerText = content;
-			return;
-		}
-		// lookup for a previously created toast
-		let info = document.getElementById("activation-toast");
-		if (info === null) {
-			// create one tiny bootstrap toast
-			var toast  = '<div id="activation-toast" class="toast position-absolute top-0 start-50 translate-middle-x" role="alert" data-bs-delay="1500" >';
-			    toast += ' <div class="d-flex">';
-			    toast += '	<div class="toast-body"> </div>';
-			    toast += ' </div>';
-			    toast += '</div>';
-			document.querySelector('body').insertAdjacentHTML('beforeend', toast);
-			info = document.getElementById("activation-toast");
-		}
-		info.querySelector('.toast-body').innerText = content;
-		bootstrap.Toast.getOrCreateInstance(info).show();
-	}
+        let content = undefined;
+        switch (topic) {
+        case 'phrase' :
+                break;
+        case 'onstart' :
+                content = 'Voice activation is now normally started';
+                break;
+        case 'onend' :
+                content = 'Voice activation is now normally stopped';
+                break;
+        case 'onerror' :
+                content = 'Voice activation stopped abnormally';
+                break;
+        case 'nothing' :
+                content = 'Voice activation do not find any activation';
+                break;
+        case 'many' :
+                content = 'Voice activation find too many activations';
+                break;
+        }
+        if (content === undefined) return;
+        // if page provide a report div use it
+        let report = document.getElementById("activation-report");
+        if (report !== null) {
+                report.innerText = content;
+                return;
+        }
+        // lookup for a previously created toast
+        let info = document.getElementById("activation-toast");
+        if (info === null) {
+            // create one tiny bootstrap toast
+            var toast  = '<div id="activation-toast" class="toast position-absolute top-0 start-50 translate-middle-x" role="alert" data-bs-delay="1500" >';
+                toast += ' <div class="d-flex">';
+                toast += '	<div class="toast-body"> </div>';
+                toast += ' </div>';
+                toast += '</div>';
+            document.querySelector('body').insertAdjacentHTML('beforeend', toast);
+            info = document.getElementById("activation-toast");
+        }
+        info.querySelector('.toast-body').innerText = content;
+        bootstrap.Toast.getOrCreateInstance(info).show();
+    }
 
     /*
      * private
@@ -156,10 +156,10 @@ class VoiceActivationUI {
      */
     handler (level, topic, text) {
         switch(level) {
-		case 'error' : this.handle_error (topic, text); break;
+        case 'error' : this.handle_error (topic, text); break;
         case 'debug' : this.handle_debug (topic, text); break;
         case 'info' : this.handle_info (topic, text); break;
-		}
+        }
     }
         
     /*
@@ -183,6 +183,14 @@ class VoiceActivationUI {
      */
     config (activations) {
         this.control.config(activations);
+    }
+
+    /*
+     * refresh configuration with new rules in selector or in activations array
+     */
+    refresh (selector, activations) {
+        this.control.refresh(selector, activations);
+        if (this.balloonsState !== 0) this.computeBalloons();
     }
 
     /*
@@ -286,58 +294,87 @@ class VoiceActivationUI {
      * private
      * compute balloons content
      */
+    computeBalloonContent (activation) {
+        let content = "";
+        content += "'";
+        content += activation.verbs[0];
+        if (activation.verbs.length > 1) {
+            content += "..";
+        }
+        content += " ";
+        content += activation.subjects[0];
+        if (activation.subjects.length > 1) {
+            content += "..";
+        }
+        content += " ";
+        switch(activation.complements.length) {
+        case 0: break;
+        case 1: content += activation.complements[0]; break;
+        default: content += activation.complements[0]; content += ".."; break;
+        }
+        content += "'";
+        content += " (";
+        content += (activation.action !== undefined ? activation.action : "click");
+        if (activation.property !== undefined) {
+            content += " ";
+            content += activation.property;
+        }
+        if (activation.value !== undefined) {
+            content += "="+activation.value;
+        }
+        content += ")";
+        return content;
+    }
+    
+    /*
+     * private
+     * compute balloons content
+     */
     computeBalloons () {
+        let toProcess = [];
         for (let activation of this.control.activations) {
-			let balloon = this.findBestBalloonElement (activation.dom);
-			balloon.setAttribute ("data-balloon-break", "");
-			let position = this.balloonPosition(this.elementPosition(activation.dom));
-			if (position === "") position = "up";
-			balloon.setAttribute ("data-balloon-pos", position);
-			let content = balloon.getAttribute ("aria-label");
-			if (content === null) content="";
-			else content+="\n";
-			content += "'";
-			content += activation.verbs[0];
-			if (activation.verbs.length > 1) {
-				content += "..";
-			}
-			content += " ";
-			content += activation.subjects[0];
-			if (activation.subjects.length > 1) {
-				content += "..";
-			}
-			content += " ";
-			switch(activation.complements.length) {
-			case 0: break;
-			case 1: content += activation.complements[0]; break;
-			default: content += activation.complements[0]; content += "|..."; break;
-			}
-			content += "'";
-			content += " (";
-			content += (activation.action !== undefined ? activation.action : "click");
-			if (activation.property !== undefined) {
-				content += " ";
-				content += activation.property;
-			}
-			if (activation.value !== undefined) {
-				content += "="+activation.value;
-			}
-			content += ")";
-			balloon.setAttribute ("aria-label", content);
-			if (balloon.querySelector('.vab') === null) {
-				balloon.insertAdjacentHTML ('beforeend', '<i class="vab fas fa-microphone"></i>');
-			}
-		}
-	}
+            let balloon = this.findBestBalloonElement (activation.dom);
+            if (! balloon.hasAttribute ("data-balloon-label")) {
+                toProcess.push(activation);
+            }
+        }
+        for (let activation of toProcess) {
+            let balloon = this.findBestBalloonElement (activation.dom);
+            if (! balloon.hasAttribute ("data-balloon-break")) {
+                balloon.setAttribute ("data-balloon-break", "");
+            }
+            if (! balloon.hasAttribute ("data-balloon-pos")) {
+                let position = this.balloonPosition(this.elementPosition(activation.dom));
+                if (position === "") position = "up";
+                balloon.setAttribute ("data-balloon-pos", position);
+            }
+            let content;
+            if (balloon.hasAttribute ("data-balloon-label")) {
+                content=balloon.getAttribute ("data-balloon-label");
+                content+="\n";
+                content+= this.computeBalloonContent(activation);
+            } else {
+                content = this.computeBalloonContent(activation);
+            }
+            balloon.setAttribute ("data-balloon-label", content);
+            if (balloon.querySelector('i.vab') === null) {
+                balloon.insertAdjacentHTML ('beforeend', '<i class="vab fas fa-microphone"></i>');
+            }
+        }
+    }
 	
     /*
      * private
      * show microphone
      */
     showBalloons () {
-        const elements = document.querySelectorAll("i.vab");
-        for (const element of elements) {
+        const vabElements = document.querySelectorAll("i.vab");
+        for (const element of vabElements) {
             element.style.display = "inline";
+        }
+        const labelElements = document.querySelectorAll("[data-balloon-label]");
+        for (const element of labelElements) {
+            element.setAttribute ("aria-label", element.getAttribute("data-balloon-label"));
         }
     }
         
@@ -346,9 +383,13 @@ class VoiceActivationUI {
      * hide microphone
      */
     hideBalloons () {
-        const elements = document.querySelectorAll("i.vab");
-        for (const element of elements) {
+        const vabElements = document.querySelectorAll("i.vab");
+        for (const element of vabElements) {
             element.style.display = "none";
+        }
+        const labelElements = document.querySelectorAll("[data-balloon-label]");
+        for (const element of labelElements) {
+            element.removeAttribute ("aria-label");
         }
     }
         
@@ -418,15 +459,15 @@ class VoiceActivationUI {
      */
     buildDebug () {
         let content = '';
-        content += '<div id="va-debug">'
-        content += '   <div> Error : <span class="va-debug-error"> </span> </div>'
-        content += '   <div> Phrase : <span class="va-debug-phrase"> </span> </div>'
-        content += '   <div> Verb : <span class="va-debug-verb"> </span> </div>'
-        content += '   <div> Subject : <span class="va-debug-subject"> </span> </div>'
-        content += '   <div> Complement : <span class="va-debug-complement"> </span> </div>'
-        content += '   <div> Selected # : <span class="va-debug-selected"> </span> </div>'
-        content += '   <div> Filtered # : <span class="va-debug-filtered"> </span> </div>'
-        content += '   <div> Action : <span class="va-debug-action"> </span> </div>'
+        content += '<div id="va-debug">';
+        content += '   <div> Error : <span class="va-debug-error"> </span> </div>';
+        content += '   <div> Phrase : <span class="va-debug-phrase"> </span> </div>';
+        content += '   <div> Verb : <span class="va-debug-verb"> </span> </div>';
+        content += '   <div> Subject : <span class="va-debug-subject"> </span> </div>';
+        content += '   <div> Complement : <span class="va-debug-complement"> </span> </div>';
+        content += '   <div> Selected # : <span class="va-debug-selected"> </span> </div>';
+        content += '   <div> Filtered # : <span class="va-debug-filtered"> </span> </div>';
+        content += '   <div> Action : <span class="va-debug-action"> </span> </div>';
         content += '</div>';
         document.querySelector('body').insertAdjacentHTML('beforeend', content);
         let debug = document.querySelector('#va-debug');
