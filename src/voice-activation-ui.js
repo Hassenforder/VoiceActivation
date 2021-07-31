@@ -1,4 +1,4 @@
-const VoiceActivationUIVersion = "1.1";
+const VoiceActivationUIVersion = "1.2";
 class VoiceActivationUI {
 /*
  * control : VoiceActivationControl
@@ -10,15 +10,15 @@ class VoiceActivationUI {
  * debugState : {number} : 0 nothing, 1 debug popup built and visible, 2 debug popup built and hidden
  */
 
-    constructor (initialisation, activations, horizontal, vertical) {
+    constructor (initialisations, activations, horizontal, vertical) {
         let self = this;
+		this.activations = activations;
         this.horizontal = horizontal;
         this.vertical = vertical;
         this.control = new VoiceActivationControl(function (level, topic, text) {
             self.handler(level, topic, text);
         });
-        this.initialisation(initialisation);
-        this.config(activations);
+        this.initialisation(initialisations);
         this.balloonsState = 0;
         this.debugState = 0;
         const balloonsDOM = document.getElementById("activation-balloons");
@@ -105,31 +105,37 @@ class VoiceActivationUI {
 	 *  else create an entry activation-popup and animate it for 1s
      */
     handle_info (topic, text) {
-        let content = undefined;
-        switch (topic) {
-        case 'phrase' :
-                break;
-        case 'onstart' :
-                content = 'Voice activation is now normally started';
-                break;
-        case 'onend' :
-                content = 'Voice activation is now normally stopped';
-                break;
-        case 'onerror' :
-                content = 'Voice activation stopped abnormally';
-                break;
-        case 'nothing' :
-                content = 'Voice activation do not find any activation';
-                break;
-        case 'many' :
-                content = 'Voice activation find too many activations';
-                break;
-        }
-        if (content === undefined) return;
+        let result = undefined;
+		switch (topic) {
+		case 'oninit' :
+			break;
+		case 'onready' :
+			result = 'Voice activation is now initialized';
+			this.config(this.activations);
+			break;
+		case 'onstart' :
+			result = 'Voice activation is now normally started';
+			break;
+		case 'onend' :
+			result = 'Voice activation is now normally stopped';
+			break;
+		case 'onerror' :
+			result = 'Voice activation stopped abnormally';
+			break;
+		case 'onphrase' :
+			break;
+		case 'onnothing' :
+			result = 'Voice activation do not find any activation';
+			break;
+		case 'onmany' :
+			result = 'Voice activation find many activations';
+			break;
+		}
+        if (result === undefined) return;
         // if page provide a report div use it
         let report = document.getElementById("activation-report");
         if (report !== null) {
-                report.innerText = content;
+                report.innerText = result;
                 return;
         }
         // lookup for a previously created toast
@@ -144,7 +150,7 @@ class VoiceActivationUI {
             document.querySelector('body').insertAdjacentHTML('beforeend', toast);
             info = document.getElementById("activation-toast");
         }
-        info.querySelector('.toast-body').innerText = content;
+        info.querySelector('.toast-body').innerText = result;
         bootstrap.Toast.getOrCreateInstance(info).show();
     }
 
@@ -167,8 +173,8 @@ class VoiceActivationUI {
      * 
      * @param initialisation
      */
-    initialisation (initialisation) {
-        this.control.initialisation(initialisation);
+    initialisation (initialisations) {
+        this.control.initialisation(initialisations);
     }
 
     /*

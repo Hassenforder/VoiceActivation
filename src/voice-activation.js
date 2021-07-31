@@ -2,7 +2,7 @@
  * set of classes to deal with a full activation of a HTML page
  * 
  */
-const VoiceActivationControlVersion = "1.1";
+const VoiceActivationControlVersion = "1.2";
 /*
  * 
  * uniq Voice configuration object for a html page
@@ -10,23 +10,26 @@ const VoiceActivationControlVersion = "1.1";
 class VoiceConfiguration {
 
     /**
-     * @param loop {boolean | null optional : allows to loop again until an error occurs
-     * @param derived {boolean | null optional : allows to add conjugaison or declinaison
-     * @param synonym {boolean | null optional : allows to add synonyms for verbs or nouns
-     * @param lang {string} mandatory: initial language of the interface
-     * @param i18n {string | null optional : allow to add translations for verbs or nouns
-     * @param nothing {string} optional: behavior if no sentence is available after filtering
+     * @param derived {boolean | null optional} : allows to add conjugaison or declinaison
+     * @param synonym {boolean | null optional} : allows to add synonyms for verbs or nouns
+     * @param lang {string} mandatory }: initial language of the interface
+     * @param behaviour {add or set or null} : what to do with urls
+	 *                 either add with them or remove previous and set with them
+     * @param urls {string [] optional} : set of urls to use to have dictionnaries
+     * @param loop {boolean | null optional} : allows to loop again until an error occurs
+     * @param nothing {string optional}: behavior if no sentence is available after filtering
      *                                can be notify of any value to ignore
-     * @param many {string} optional: behavior if many sentences are available after filtering
+     * @param many {string optional}: behavior if many sentences are available after filtering
      *                                can be notify, apply or any value to ignore
      */
     
-    constructor(loop, derived, synonym, lang, i18n, nothing, many) {
-        this.loop = loop;
+    constructor(derived, synonym, lang, behaviour, urls, loop, nothing, many) {
         this.derived = derived;
         this.synonym = synonym;
         this.lang = lang;
-        this.i18n = i18n;
+        this.behaviour = behaviour;
+        this.urls = urls;
+        this.loop = loop;
         this.nothing = nothing;
         this.many = many;
     }
@@ -70,6 +73,162 @@ class VoiceActivation {
 
 }
 
+class VoiceLanguages {
+/**
+ * lang {string} mandatory: language of the interface
+ * behavior {add | set} optional: behavior against url either
+ * use only these or add them to default
+ * urls {string} optional: url where to fetch dictionnaries
+ * listener : a function to use when ready
+ * state : enum to know the current state of the languages
+ *     conjugations : { string, string } []
+ *     derivations : { string, string } []
+ *     synonyms : { string, string } []
+ *     translations : { string, string } []
+ */
+
+	/**
+     * @param lang {string} mandatory: language of the interface
+     * @param behaviour {add | set } optional: behaviour against url either
+	 * use only these or add them to default
+     * @param urls {string} optional: url where to fetch dictionnaries
+     */
+    
+    constructor(lang, behaviour, urls, listener) {
+        this.lang = lang;
+        this.behaviour = behaviour;
+        this.urls = urls;
+        this.listener = listener;
+		this.state = 'ctor';
+		this.conjugations = { };
+		this.declinations = { };
+		this.synonyms = { };
+		this.translations = { };
+    }
+
+	/**
+	 * private
+	 * merge all new dictionnaries into the main dictionnaries
+	 * 
+	 */
+	mergeDictionnaries (dictionnaries) {
+		if (dictionnaries === undefined) reurn;
+		if (dictionnaries.conjugations !== undefined) {
+			this.conjugations = {...this.conjugations, ...dictionnaries.conjugations};
+		}
+		if (dictionnaries.declinations !== undefined) {
+			this.declinations = {...this.declinations, ...dictionnaries.declinations};
+		}
+		if (dictionnaries.synonyms !== undefined) {
+			this.synonyms = {...this.synonyms, ...dictionnaries.synonyms};
+		}
+		if (dictionnaries.translations !== undefined) {
+			this.translations = {...this.translations, ...dictionnaries.translations};
+		}
+	}
+
+	update (max) {
+		if (max !== undefined) {
+			this.count = max;
+		} else {
+			--this.count;
+		}
+		if (this.count === 0) {
+			this.state = 'ready';
+		}
+		if (this.listener !== undefined) {
+			if (this.state === 'ready') {
+				this.listener('info', 'onready', '');
+			} else {
+				this.listener('info', 'oninit', this.state);
+			}
+		}
+	}
+
+	/**
+	 * private
+	 * load all dictionnaries from the urls 
+	 * a special case of url is js:// which is function to call allready loaded by the browser
+	 * 
+	 */
+	loadUrls() {
+		let urls = this.urls.split(",");
+		let self = this;
+		self.update(urls.length);
+		for (let url of urls) {
+            url = url.trim();
+			if (url.startsWith('js://')) {
+				// special case if the language is embedded in the page as a javascript file
+				// should be something like voice_language_{lang} which is a function to call
+				let fctName = url.replace('js://', '').replace ('{lang}', this.lang).replace('-', '_');
+				let fct = window[fctName];
+				if (typeof fct === 'function') {
+					let dictionnaries = fct();
+					try { self.mergeDictionnaries(dictionnaries); } catch (exception) {}
+				}
+				self.update();
+			} else {
+				let realUrl = url.replace ('{lang}', this.lang);
+				var xhr = new XMLHttpRequest();
+				xhr.open('GET', realUrl, true);
+				xhr.responseType = 'json';
+				xhr.timeout = 500;
+				xhr.onload = function() {
+					if (xhr.status == 200) {
+						try { self.mergeDictionnaries(xhr.response); } catch (exception) {}
+						self.update();
+					}
+				};
+				xhr.ontimeout = function () {
+					self.update();
+				};
+				xhr.onerror = function () {
+					self.update();
+				};
+				xhr.send();
+			}
+		}
+	}
+
+	initialisation (initialisation) {
+		this.state = 'init';
+		if (this.behaviour === undefined) return;
+		switch (this.behaviour) {
+		case '' :
+			this.mergeDictionnaries (initialisation);
+			this.state = 'loaded';
+			this.update(0);
+			break;
+		case 'set' :
+			this.state = 'loading';
+			this.loadUrls();
+			break;
+		case 'add' :
+			this.mergeDictionnaries (initialisation);
+			this.state = 'loading';
+			this.loadUrls();
+			break;
+		}
+	}
+
+	getConjugations () {
+		return this.conjugations;
+	}
+
+	getDeclinations () {
+		return this.declinations;
+	}
+
+	getSynonyms () {
+		return this.synonyms;
+	}
+
+	getTranslations () {
+		return this.translations;
+	}
+
+}
+
 /*
  * 
  * main class to handle the voice activation of a HTML page
@@ -78,11 +237,9 @@ class VoiceActivationControl {
 /*
  * listener : function used to notify page about behaviour
  * configuration : VoiceConfiguration
+ * language : VoiceLanguage
  * activations : VoiceActivation []
  * actions : { string, function } []
- * conjugations : { string, string } []
- * translations : { string, string } []
- * derivations : { string, string } []
  * 
  * recognition
  * 
@@ -99,81 +256,19 @@ class VoiceActivationControl {
     extractConfigurationFromHtml() {
         const element = document.getElementById("vai");
         if (element === null) return undefined;
-        const loop = element.dataset.vaLoop;
         const derived = element.dataset.vaDerived;
         const synonym = element.dataset.vaSynonym;
-        const i18n = element.dataset.vaI18n;
         const lang = element.dataset.vaLang;
+        const behaviour = element.dataset.vaBehaviour;
+        const urls = element.dataset.vaUrls;
+        const loop = element.dataset.vaLoop;
         const nothing = element.dataset.vaNothing;
         const many = element.dataset.vaMany;
         const configuration = new VoiceConfiguration (
-                loop === 'true', derived === 'true', synonym === 'true', lang, i18n, nothing, many
+                derived === 'true', synonym === 'true', lang, behaviour, urls,
+				loop === 'true', nothing, many
             );
         return configuration;
-    }
-    
-    /*
-     * register of kind of conjugations
-     */
-    registerConjugations (conjugations) {
-        this.conjugations = {};
-        this.conjugations['actualiser'] = 'actualise, actualisez';
-        this.conjugations['afficher'] = 'affiche,affichez';
-        this.conjugations['aller'] = 'va,allez';
-        this.conjugations['cacher'] = 'cache,cachez';
-        this.conjugations['chercher'] = 'cherche,cherchez';
-        this.conjugations['cocher'] = 'coche,cochez';
-        this.conjugations['colorier'] = 'colorie,coloriez';
-        this.conjugations['connecter'] = 'connecte, connectez';
-        this.conjugations['créer'] = 'crée,créez';
-        this.conjugations['décocher'] = 'décoche,décochez';
-        this.conjugations['démarrer'] = 'démarre,démarrez';
-        this.conjugations['éditer'] = 'édite,éditez';
-        this.conjugations['exporter'] = 'exporte,exportez';
-        this.conjugations['faire'] = 'fait, fais';
-        this.conjugations['fermer'] = 'ferme, fermez';
-        this.conjugations['importer'] = 'importe, importez';
-        this.conjugations['ouvrir'] = 'ouvre, ouvrez';
-        this.conjugations['quitter'] = 'quitte,quittez';
-        this.conjugations['remplir'] = 'rempli';
-        this.conjugations['sélectionner'] = 'sélectionne,sélectionnez';
-        this.conjugations['soumettre'] = 'soumet';
-        this.conjugations['supprimer'] = 'supprime,supprimez';
-        this.conjugations['stopper'] = 'stoppe, stoppez';
-        if (conjugations === undefined) return;
-    }
-
-    /*
-     * register of kind of declinations
-     */
-    registerDeclinations (declinations) {
-        this.declinations = {};
-        this.declinations['configuration'] = 'config';
-        this.declinations['sign in'] = 'sign-in';
-        this.declinations['sign out'] = 'sign-out';
-        this.declinations['mot de passe'] = 'password';
-        this.declinations['nom'] = 'non';
-        this.declinations['un'] = 'a,à';
-        this.declinations['deux'] = 'de';
-        this.declinations['voix'] = 'voit, voie';
-        this.declinations['champ'] = 'chant';
-        if (declinations === undefined) return;
-    }
-    
-    /*
-     * register of kind of synonyms
-     */
-    registerSynonyms (synonyms) {
-        this.synonyms = {};
-        if (synonyms === undefined) return;
-    }
-    
-    /*
-     * register of kind of translations
-     */
-    registerTranslations (translations) {
-        this.translations = {};
-        if (translations === undefined) return;
     }
     
     /*
@@ -238,26 +333,10 @@ class VoiceActivationControl {
         if (actions === undefined) return;
     }
     
-    /*
-     * initialisation of all general resources
-     * 
-     * @param configuration {VoiceConfiguration} optional : a programatic configuration object
-     * initialisation : {
-     *    configuration : VoiceConfiguration,
-     *    conjugations : [ { 'infinitif' : 'conjuguations in csv' } ],
-     *    declinations : [ { 'noun' : 'nouns in csv' } ],
-     *    synonyms : [ { 'text' : 'texts in csv' } ],
-     *    translations : [ { 'name' : 'names in csv' } ],
-     *    actions : [ { 'token' : function(activation) {...} } ]
-     * }
-     */
-    initialisation (initialisation) {
-        this.configuration = new VoiceConfiguration (false, false, false, "en-US", "", 'error', 'error');
-        if (initialisation !== undefined && initialisation.configuration !== undefined) {
-            this.configuration = { ...this.configuration, ...initialisation.configuration };
-        }
-        this.configuration = { ...this.configuration, ...this.extractConfigurationFromHtml() };
-
+	/*
+	 * private
+	 */
+    engineInitialisation () {
         let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         this.recognition = new SpeechRecognition();
         this.recognition.continuous = true;
@@ -294,12 +373,36 @@ class VoiceActivationControl {
             // third to explain what happens
             self.notify('info', 'onerror', '');
         };
-
-        this.registerConjugations (initialisation !== undefined ? initialisation.conjugations : undefined);
-        this.registerDeclinations (initialisation !== undefined ? initialisation.declinations : undefined);
-        this.registerSynonyms (initialisation !== undefined ? initialisation.synonyms : undefined);
-        this.registerTranslations (initialisation !== undefined ? initialisation.translations : undefined);
+	}
+	
+    /*
+     * initialisation of all general resources
+     * 
+     * @param configuration {VoiceConfiguration} optional : a programatic configuration object
+     * initialisation : {
+     *    configuration : VoiceConfiguration,
+     *    languages : VoiceLanguages,
+     *    conjugations : [ { 'infinitif' : 'conjuguations in csv' } ],
+     *    declinations : [ { 'noun' : 'nouns in csv' } ],
+     *    synonyms : [ { 'text' : 'texts in csv' } ],
+     *    translations : [ { 'name' : 'names in csv' } ],
+     *    actions : [ { 'token' : function(activation) {...} } ]
+     * }
+     */
+    initialisation (initialisation) {
+        this.configuration = new VoiceConfiguration (false, false, "en-US", "", '', '', false, 'error', 'error');
+        if (initialisation !== undefined && initialisation.configuration !== undefined) {
+            this.configuration = { ...this.configuration, ...initialisation.configuration };
+        }
+        this.configuration = { ...this.configuration, ...this.extractConfigurationFromHtml() };
         this.registerActions (initialisation !== undefined ? initialisation.actions : undefined);
+		this.engineInitialisation();
+		let self = this;
+        this.languages = new VoiceLanguages (
+				this.configuration.lang, this.configuration.behaviour, this.configuration.urls,
+				function (level, topic, text) { self.notify(level, topic, text) }
+		);
+		this.languages.initialisation ();
     }
     
     /*
@@ -312,7 +415,7 @@ class VoiceActivationControl {
     /*
      * private
      * notification of internal behavior
-     * @param {string} level : in info, debug
+     * @param {string} level : in info, debug, error
      * @param {string} topic : the topic of the notification, explains thetext
      * @param {string or object} text : the text if a string or a structure with several fields
      * 
@@ -367,7 +470,7 @@ class VoiceActivationControl {
     expandActivation(
                 element, target,
                 verbList, subjectList, complementList,
-                derived, synonym, i18n,
+                derived, synonym,
                 allways, action, property, value
             ) {
         // find the real dom element(s) for the rule
@@ -392,18 +495,18 @@ class VoiceActivationControl {
         let subjects = this.sanitizeWords(subjectList);
         let complements = this.sanitizeWords(complementList);
 
-        // if derived allows add conjugations or declinations
+        // if derived it allows to add conjugations or declinations
         if ((derived === undefined && this.configuration.derived) || derived) {
-            verbs = this.expandWords (verbs, this.conjugations);
-            subjects = this.expandWords (subjects, this.declinations);
-            complements = this.expandWords (complements, this.declinations);
+            verbs = this.expandWords (verbs, this.languages.getConjugations());
+            subjects = this.expandWords (subjects, this.languages.getDeclinations());
+            complements = this.expandWords (complements, this.languages.getDeclinations());
         }
         
         // if synonym allows add synonyms
         if ((synonym === undefined && this.configuration.synonym) || synonym) {
-            verbs = this.expandWords (verbs, this.synonyms);
-            subjects = this.expandWords (subjects, this.synonyms);
-            complements = this.expandWords (complements, this.synonyms);
+            verbs = this.expandWords (verbs, this.languages.getSynonyms());
+            subjects = this.expandWords (subjects, this.languages.getSynonyms());
+            complements = this.expandWords (complements, this.languages.getSynonyms());
         }
 
         // and now feed the activations registry with all gathered words
@@ -435,20 +538,19 @@ class VoiceActivationControl {
     extractActivationsFromHtml(selector) {
     	let root = document;
     	if (selector !== undefined) {
-	   root = document.querySelector (selector);
+			root = document.querySelector (selector);
     	}
     	if (root === null) return;
         const elements = root.querySelectorAll("[data-va-verbs][data-va-subjects]");
         for (const element of elements) {
             const noRefresh = element.dataset.vaNoRefresh;
-	    if (selector !== undefined && noRefresh !== undefined && noRefresh === "true") continue; 
+			if (selector !== undefined && noRefresh !== undefined && noRefresh === "true") continue; 
             const target = element.dataset.vaTarget;
             const verbList = element.dataset.vaVerbs;
             const subjectList = element.dataset.vaSubjects;
             const complementList = element.dataset.vaComplements;
             const derived = element.dataset.vaDerived;
-            const synonyme = element.dataset.vaSynonyme;
-            const i18n = element.dataset.vaI18n;
+            const synonym = element.dataset.vaSynonym;
             const allways = element.dataset.vaAllways;
             const action = element.dataset.vaAction;
             const property = element.dataset.vaProperty;
@@ -456,7 +558,7 @@ class VoiceActivationControl {
             this.expandActivation(
                     element, target,
                     verbList, subjectList, complementList,
-                    derived, synonyme, i18n,
+                    derived, synonym,
                     allways, action, property, value
             );
         }
@@ -467,14 +569,14 @@ class VoiceActivationControl {
      * remove from activations all element no more available in dom
      */
     removeGoneElements() {
-	let toRemove = [];
-	for (let index=0; index < this.activations.length; ++index) {
-           if (! document.body.contains(this.activations[index].dom)) toRemove.push (index);
-	}
-	toRemove.sort(function compare(a, b) { return b - a; } );
-	for (const index of toRemove) {
-	   this.activations.splice(index, 1);
-	}
+		let toRemove = [];
+		for (let index=0; index < this.activations.length; ++index) {
+			if (! document.body.contains(this.activations[index].dom)) toRemove.push (index);
+		}
+		toRemove.sort(function compare(a, b) { return b - a; } );
+		for (const index of toRemove) {
+		   this.activations.splice(index, 1);
+		}
     }
     
     /*
@@ -564,7 +666,7 @@ class VoiceActivationControl {
     	this.removeGoneElements ();
         this.extractActivationsFromHtml(selector);
         if (activations !== undefined) {
-	   this.activations = this.activations.concat(activations);
+			this.activations = this.activations.concat(activations);
         }
         this.configRecognition ();
     }
@@ -707,7 +809,7 @@ class VoiceActivationControl {
                     subject : subject,
                     complement : complement
                 };
-                this.notify ('info', 'nothing', info);
+                this.notify ('info', 'onnothing', info);
             }
             break;
         case 1 :
@@ -721,7 +823,7 @@ class VoiceActivationControl {
                     subject : subject,
                     complement : complement
                 };
-                this.notify ('info', 'many', info);
+                this.notify ('info', 'onmany', info);
             } else if (this.configuration.many === 'apply') {
                 for (let filter of sentences) {
                     this.applyActivation (filter, complement);
@@ -849,7 +951,7 @@ class VoiceActivationControl {
             // 0..resultIndex-1 are the previous event in case of contiguous
             const speech = event.results[event.resultIndex][0];
             const result = speech.transcript;
-            this.notify ('info', 'phrase', result);
+            this.notify ('info', 'onphrase', result);
             this.notify ('debug', 'phrase', result);
             const words = result.toLowerCase().trim().split(" ");
             let verb = this.findVerb (words);
@@ -866,7 +968,7 @@ class VoiceActivationControl {
                         subject : subject,
                         complement : complement
                     };
-                    this.notify ('info', 'nothing', info);
+                    this.notify ('info', 'onnothing', info);
                 }
                 return;
             }

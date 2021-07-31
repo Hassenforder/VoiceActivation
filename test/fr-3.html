@@ -10,10 +10,10 @@
     <title> Exemple de formulaire en Français </title>
   <head>
   <body>
-    <vai id="vai" data-va-loop="true"
+    <vai id="vai"
 		data-va-derived="true" data-va-synonym="true"
-		data-va-i18n="false" data-va-lang="fr-FR"
-		data-va-nothing="nothing" data-va-many="apply" >
+		data-va-lang="fr-FR" data-va-behaviour="set"  data-va-urls="js://voice_language_{lang}" 
+		data-va-loop="true" data-va-nothing="nothing" data-va-many="apply" >
 			<va data-va-verbs="changer" data-va-subjects="voix" data-va-target="#activation-toggle-stop" ></va>
 			<va data-va-verbs="changer" data-va-subjects="ballon" data-va-target="#activation-balloons" ></va>
 			<va data-va-verbs="changer" data-va-subjects="debug,10 bug" data-va-target="#activation-debug" ></va>
@@ -190,6 +190,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/regular.min.js" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/fontawesome.min.js" crossorigin="anonymous"></script>
+	<script src="../src/voice-language-fr-FR.js"></script>
 	<script src="../src/voice-activation.js"></script>
 	<script src="../src/voice-activation-ui.js"></script>
 	<script src="3.js"></script>

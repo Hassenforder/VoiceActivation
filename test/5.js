@@ -8,6 +8,13 @@ document.addEventListener("DOMContentLoaded", function() {
 			if (level !== 'info') return;
 			let result = undefined;
 			switch (topic) {
+			case 'oninit' :
+				result = 'Voice activation is initialiasing : ';+text
+				break;
+			case 'onready' :
+				result = 'Voice activation is now initialized';
+				va.config ();
+				break;
 			case 'onstart' :
 				result = 'Voice activation is now normally started';
 				break;
@@ -17,13 +24,13 @@ document.addEventListener("DOMContentLoaded", function() {
 			case 'onerror' :
 				result = 'Voice activation stopped abnormally';
 				break;
-			case 'phrase' :
+			case 'onphrase' :
 				result = text;
 				break;
-			case 'nothing' :
+			case 'onnothing' :
 				result = 'Voice activation do not find any activation';
 				break;
-			case 'many' :
+			case 'onmany' :
 				result = 'Voice activation find many activations';
 				break;
 			}

@@ -7,10 +7,10 @@
     <title> Exemple de formulaire en Français </title>
   <head>
   <body>
-    <vai id="vai" data-va-loop="false"
+    <vai id="vai" 
 		data-va-derived="true" data-va-synonym="true"
-		data-va-i18n="false" data-va-lang="fr-FR"
-		data-va-nothing="nothing" data-va-many="apply" >
+		data-va-i18n="false" data-va-lang="fr-FR" data-va-behaviour="set"  data-va-urls="../src/voice-language-{lang}.json" 
+		data-va-loop="false" data-va-nothing="nothing" data-va-many="apply" >
 			<va data-va-verbs="stoppe" data-va-subjects="voix" data-va-target="#activation-stop" ></va>
 			<va data-va-verbs="remplir" data-va-subjects="titre" data-va-action="fill" data-va-target="#legend" ></va>
 			<va data-va-verbs="remplir" data-va-subjects="nom" data-va-action="fill" data-va-target="#inputName" ></va>
@@ -77,6 +77,8 @@
 			<div class="col-lg-5">
 				<h2> Point de vue développeur </h2>
 				L'objectif de cette page est de montrer l'activation en plaçant les règles dans un élément spécial &lt;vai&gt; juste après le &lt;body&gt;.
+				Les règles de mots alternatifs (dérivés, conjuguaisons, synonymes) sont maintenant chargées depuis le serveur
+				sous la forme d'un fichier json.
 			</div>
 			<div class="col-lg-6">
 				<h2> Point de vue utilisateur </h2>

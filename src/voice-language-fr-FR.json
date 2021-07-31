@@ -1,0 +1,40 @@
+{
+	"conjugations" : {
+        "actualiser" : "actualise, actualisez",
+        "afficher" : "affiche,affichez",
+        "aller" : "va,allez",
+        "cacher" : "cache,cachez",
+        "chercher" : "cherche,cherchez",
+        "cocher" : "coche,cochez",
+        "colorier" : "colorie,coloriez",
+        "connecter" : "connecte, connectez",
+        "créer" : "crée,créez",
+        "décocher" : "décoche,décochez",
+        "démarrer" : "démarre,démarrez",
+        "éditer" : "édite,éditez",
+        "exporter" : "exporte,exportez",
+        "faire" : "fait, fais",
+        "fermer" : "ferme, fermez",
+        "importer" : "importe, importez",
+        "ouvrir" : "ouvre, ouvrez",
+        "quitter" : "quitte,quittez",
+        "remplir" : "rempli",
+        "sélectionner" : "sélectionne,sélectionnez",
+        "soumettre" : "soumet",
+        "supprimer" : "supprime,supprimez",
+        "stopper" : "stoppe, stoppez"
+    },
+	"declinations" : {
+        "configuration" : "config",
+        "sign in" : "sign-in",
+        "sign out" : "sign-out",
+        "mot de passe" : "password",
+        "nom" : "non",
+        "un" : "a,à",
+        "deux" : "de",
+        "voix" : "voit, voie",
+        "champ" : "chant"
+    },
+	"synonyms" : {},
+	"translations" : {}
+}
